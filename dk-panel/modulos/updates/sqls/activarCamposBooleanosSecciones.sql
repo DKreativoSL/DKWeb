@@ -1,0 +1,10 @@
+UPDATE secciones SET
+ch_CampoTitulo = 1,
+ch_CampoSubTitulo = 1,
+ch_CampoCuerpo = 1,
+ch_CampoCuerpoAvance = 1,
+ch_CampoFechaPublicacion = 1,
+ch_CampoImagen = 1,
+ch_CampoArchivo = 1,
+ch_CampoURL = 1,
+ch_CampoCampoExtra = 1;
