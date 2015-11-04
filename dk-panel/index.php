@@ -9,6 +9,7 @@ include("acceso.php"); //compruebo la sesión
 <html lang="sp" class="no-js">
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
+<!-- Prueba -->
 <head>
 <meta charset="utf-8"/>
 <title>Dk Web 2.0</title>
