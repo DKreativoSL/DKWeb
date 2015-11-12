@@ -30,3 +30,8 @@ Rounded Portlets
 	position:relative;
 	top:3px;
 }
+.errorEncontrado {
+    color: #fff !important;
+    background-color: #d9534f !important;
+    border-color: #d43f3a !important;
+}
