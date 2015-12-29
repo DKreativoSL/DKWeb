@@ -105,7 +105,7 @@
             </tr>
             <tr>
 			  <td width="82">Orden</td>
-              <td width="732"><input name="txtOrden" type="text" id="txtOrden" value="" size="5" maxlength="5"  class="form-control"/></td>
+              <td width="732"><input name="orden" type="text" id="orden" value="" size="5" maxlength="5"  class="form-control"/></td>
               <td width="195"></td>
             </tr>
 			<tr>
