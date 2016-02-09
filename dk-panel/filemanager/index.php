@@ -1,6 +1,16 @@
 <?php session_start();
 //cargo parámetros generales de configuración
 include("confic.inc.php");
+
+$ftpButton = '';
+if ($_SESSION['canAccessFTP'] === true) {
+	$ftpButton = '
+	<div tabindex="-1" role="button" style="float:right;">
+		<button id="ftpButton" type="button">FTP</button>
+	</div>
+	';
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,9 +32,7 @@ include("confic.inc.php");
 		</div>
 		<div style="top: 0px; width: 301px; height: 30px; float:left">
 			<input id="urlFile" style="width: 258px;">
-			<div tabindex="-1" role="button" style="float:right;">
-				<button id="ftpButton" type="button">FTP</button>
-			</div>
+			<?php echo $ftpButton; ?>
 		</div>
 	</div>
 	<div style="height: 20px; margin-top:25px; margin-left:10px;">

@@ -120,11 +120,11 @@
 							$sql .= 'menuSecciones=1, ';
 							$sql .= 'menuParametros=1, ';
 							$sql .= 'menuUsuarios=1, ';
-							$sql .= 'menuInmobiliaria=1, ';
-							$sql .= 'menuInmoApuntes=1, ';
-							$sql .= 'menuinmoClientes=1, ';
-							$sql .= 'menuInmoInmuebles=1, ';
-							$sql .= 'menuInmoZonas=1, ';
+							$sql .= 'menuInmobiliaria=0, ';
+							$sql .= 'menuInmoApuntes=0, ';
+							$sql .= 'menuinmoClientes=0, ';
+							$sql .= 'menuInmoInmuebles=0, ';
+							$sql .= 'menuInmoZonas=0, ';
 							$sql .= 'menuCorreos=1, ';
 							$sql .= 'menuMigracion=1, ';
 							$sql .= 'menuComentarios=1, ';
@@ -132,7 +132,7 @@
 							$sql .= 'menuTrashArticulos=1, ';
 							$sql .= 'menuUpdates=1,';
 							$sql .= 'menuFTP=1,';
-							$sql .= 'menuAcademia=1;';
+							$sql .= 'menuAcademia=0;';
 							if (!mysqli_query($conexion, $sql)) {
 								$errors++;
 							}

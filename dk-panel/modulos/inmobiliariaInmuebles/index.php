@@ -334,9 +334,13 @@ session_start();
                     </div>
                 </div>
             	<div class="row">
-	                <div class="col-lg-12">
-                        <input name="inmueble_chEscaparate" type="checkbox" id="inmueble_chEscaparate" value="checked"/>
+	                <div class="col-lg-3">
+                        <input name="inmueble_chEscaparateWeb" type="checkbox" id="inmueble_chEscaparateWeb" value="checked"/>
                         Publicar en la web
+                    </div>
+	                <div class="col-lg-3">
+                        <input name="inmueble_chEscaparate" type="checkbox" id="inmueble_chEscaparate" value="checked"/>
+                        Publicar en el escaparate
                     </div>
                 </div>
 				<div class="row">
@@ -561,12 +565,16 @@ session_start();
             </div>
 			<div class="panel-body">
 				<div class="row">
-	            	<div class="col-lg-12">
+	            	<div class="col-lg-6">
 	                	Documento
 	                	<a href="#" onclick="cambiarDocumentoInmueble()">Cambiar</a>
 	                	<a href="#" onclick="verDocumentoInmueble()">Ver</a>
 	                	<br />
 	                	<img src="#" id="documentoInmueble" alt="Imagen-del-contrato" width="160" height="160" longdesc="Imagen-del-contrato" />
+	            	</div>
+	            	<div class="col-lg-6">
+	                	<a href="#" onclick="crearPDF()">Crear PDF</a>
+	                	<a href="#" onclick="verPDF()">Ver PDF</a>
 	            	</div>
 	        	</div>
 				<div class="row margin-top-15">

@@ -78,6 +78,8 @@ function inicializaFiltrosApuntes() {
 		
 		var tablaRegistrosVisitasCliente;
 		getTablaRegistrosVisitasCliente = function () {
+				
+
 			tablaRegistrosVisitasCliente = $('#tablaRegistrosVisitas').dataTable({
 				"processing": true,
 				"serverSide": true,
@@ -98,7 +100,7 @@ function inicializaFiltrosApuntes() {
 					{ "data": "inmueble" },
 					{ "data": "comentario" },
 					{ "data": "usuario" },
-					{ "data": "acciones" }
+					{ "data": "acciones","sortable":false }
 				],
 				"bDeferRender": true,
 				"bDestroy": true,
@@ -172,7 +174,7 @@ function inicializaFiltrosApuntes() {
 					{ "data": "inmueble" },
 					{ "data": "comentario" },
 					{ "data": "usuario" },
-					{ "data": "acciones" }
+					{ "data": "acciones","sortable":false }
 				],
 				"bDeferRender": true,
 				"bDestroy": true,
@@ -275,6 +277,23 @@ function inicializaFiltrosApuntes() {
 				$(this).removeAttr('selected');
 			});
 		});
+		
+		$('#popupApuntes input[type=text]').each(function () {
+			$(this).val('');	
+		});
+		//Limpiamos todos los textarea
+		$('#apuntes_comentarios').html('');
+		//Limpiamos todos los checkbox
+		$('#popupApuntes input[type=checkbox]').each(function () {
+			$(this).removeAttr('checked');
+		});
+		//Limpiamos todos los selects
+		$('#popupApuntes select').each(function () {
+			$(this).children('option').each(function () {
+				$(this).removeAttr('selected');
+			});
+		});
+		
 		obtenerUsuario(idUsuario);
 	}
 	

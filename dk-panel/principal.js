@@ -114,19 +114,22 @@ $(document).ready(function(){
 				var seccionesWeb = JSON.parse(data);
 				if (data == ""){
 					alert("Ha ocurrido un error con la carga de las secciones, pongase en contacto con Dkreativo (desarrollo@dkreativo.es)");
-				}else{						
-					for (x=0; x < seccionesWeb.length; x++)
-					{
-						
-						if (seccionesWeb[x]['seccionPadre'] == 0)
+				} else{						
+					if (seccionesWeb.length > 0) {
+						for (x=0; x < seccionesWeb.length; x++)
 						{
-							$("#seccionesWeb").append('<li><a href="#" onclick="cargaSeccion('+seccionesWeb[x]['id']+','+seccionesWeb[x]['tipo']+',\''+seccionesWeb[x]['nombre']+'\')" ><i class="icon-pencil"></i> '+seccionesWeb[x]['nombre']+'<span id="submenu'+seccionesWeb[x]['id']+'"></span></a><ul id="menu'+seccionesWeb[x]['id']+'" class="sub-menu"></ul></li>');
-						}else{
-							$("#menu"+seccionesWeb[x]['seccionPadre']).append('<li><a href="#" onclick="cargaSeccion('+seccionesWeb[x]['id']+','+seccionesWeb[x]['tipo']+',\''+seccionesWeb[x]['nombre']+'\')" ><i class="icon-pencil"></i> '+seccionesWeb[x]['nombre']+'<span id="submenu'+seccionesWeb[x]['id']+'"></span></a><ul id="menu'+seccionesWeb[x]['id']+'" class="sub-menu"></ul></li>');
-							//añado la clase para submenús
-							$("#submenu"+seccionesWeb[x]['seccionPadre']).addClass("arrow");
+							if (seccionesWeb[x]['seccionPadre'] == 0)
+							{
+								$("#seccionesWeb").append('<li><a href="#" onclick="cargaSeccion('+seccionesWeb[x]['id']+','+seccionesWeb[x]['tipo']+',\''+seccionesWeb[x]['nombre']+'\')" ><i class="icon-pencil"></i> '+seccionesWeb[x]['nombre']+'<span id="submenu'+seccionesWeb[x]['id']+'"></span></a><ul id="menu'+seccionesWeb[x]['id']+'" class="sub-menu"></ul></li>');
+							}else{
+								$("#menu"+seccionesWeb[x]['seccionPadre']).append('<li><a href="#" onclick="cargaSeccion('+seccionesWeb[x]['id']+','+seccionesWeb[x]['tipo']+',\''+seccionesWeb[x]['nombre']+'\')" ><i class="icon-pencil"></i> '+seccionesWeb[x]['nombre']+'<span id="submenu'+seccionesWeb[x]['id']+'"></span></a><ul id="menu'+seccionesWeb[x]['id']+'" class="sub-menu"></ul></li>');
+								//añado la clase para submenús
+								$("#submenu"+seccionesWeb[x]['seccionPadre']).addClass("arrow");
+							}
+							
 						}
-						
+					} else {
+						$("#seccionesWeb").append('<li><a href="#" onclick="cargaContenido(\'estructura\')" ><i class="fa fa-plus"></i>Crear estructura web</a></li>');
 					}
 				}
 			});

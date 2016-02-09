@@ -98,7 +98,7 @@ function verDocumentoInmueble() {
 
 function cambiarImagenesInmueble() {
 	var idInmueble = $("#inmueble_id").val();
-	ventanaPopup('./modulos/inmobiliariaInmuebles/uploadGallery/subir.php?ref=' + idInmueble);	
+	ventanaPopup('./modulos/inmobiliariaInmuebles/uploadGallery/subir.php?id=' + idInmueble);	
 }
 
 function obtenerGaleriaImagenes() {
@@ -144,6 +144,25 @@ function obtenerNuevaReferencia() {
 	});
 	
 }
+
+function crearPDF() {
+	var idInmueble = $("#inmueble_id").val();
+	
+	jQuery.post("./modulos/inmobiliariaInmuebles/dk-logica.php", {
+		'accion': "crearPDF",
+		'idInmueble': idInmueble
+	}, function(data, textStatus){
+		console.log(data);
+		window.open(data);
+	});		
+}
+
+function verPDF() {
+	var idInmueble = $("#inmueble_id").val();
+	var url = 'documentos/' + idInmueble + '.html';
+	window.open(url);
+}
+
 
 function hideInputs() {
 	//Limpiamos todos los inputs
@@ -700,7 +719,38 @@ function actualizaListaInmuebles() {
 		lstUsuario 			= $('#lstUsuario').val();
 		cbEstado 			= $('#cbEstado').val();
 		tlfpropietario 		= $('#tlfpropietario').val();
-		
+		/*
+		jQuery.post("./modulos/inmobiliariaInmuebles/dk-logica.php", {
+			"accion":"listaInmuebles",
+			"preciodesde":preciodesde,
+			"preciohasta":preciohasta,
+			"metrosdesde":metrosdesde,
+			"metroshasta":metroshasta,
+			"banosdesde":banosdesde,
+			"banoshasta":banoshasta,
+			"desde":desde,
+			"hasta":hasta,
+			"desdebaja":desdebaja,
+			"hastabaja":hastabaja,
+			"chAscensor":chAscensor,
+			"chGaraje":chGaraje,
+			"chPiscina":chPiscina,
+			"chAlquiler":chAlquiler,
+			"chVenta":chVenta,
+			"chAlquilerCompra":chAlquilerCompra,
+			"chTraspaso":chTraspaso,
+			"chPromocion":chPromocion,
+			"lstZona":lstZona,
+			"lstTipo":lstTipo,
+			"propietario":propietario,
+			"planta":planta,
+			"lstUsuario":lstUsuario,
+			"cbEstado":cbEstado,
+			"tlfpropietario":tlfpropietario
+		}, function(data, textStatus){
+			console.log(data);
+		});
+		*/
 		tablaRegistrosInmuebles = $('#tablaRegistrosInmuebles').dataTable({
 			"processing": true,
 			"serverSide": true,		
@@ -854,7 +904,7 @@ function modificaInmueble(idInmueble) {
 				$('#inmueble_zona').html(html);
 			});
 			
-			$("#inmueble_fuetxtPortalnte").val(datosInmueble[0]['portal']);
+			$("#inmueble_txtPortal").val(datosInmueble[0]['portal']);
 			$("#inmueble_txtPlanta").val(datosInmueble[0]['planta']);
 			$("#inmueble_txtLetra").val(datosInmueble[0]['letra']);
 			
@@ -869,6 +919,19 @@ function modificaInmueble(idInmueble) {
 			
 			$("#inmueble_txtCaracteristicas").val(datosInmueble[0]['caracteristicas']);
 			
+			
+			if (datosInmueble[0]['escaparate'] == 'true') {
+				$('#inmueble_chEscaparate').attr('checked',true);
+			}
+			
+			if (datosInmueble[0]['escaparateWeb'] == 'true') {
+				$('#inmueble_chEscaparateWeb').attr('checked',true);
+			}
+
+			if (datosInmueble[0]['AlquilarCompra'] == 'true') {
+				$('#inmueble_chAlquilerCompra').attr('checked',true);
+			}
+						
 			if (datosInmueble[0]['alquiler'] == 'true') {
 				$('#inmueble_chAlquiler').attr('checked',true);
 			}
@@ -883,10 +946,6 @@ function modificaInmueble(idInmueble) {
 			
 			if (datosInmueble[0]['traspaso'] == 'true') {
 				$('#inmueble_chTraspaso').attr('checked',true);
-			}
-			
-			if (datosInmueble[0]['VENTALQUIL'] == 'true') {
-				$('#inmueble_chAlquilerCompra').attr('checked',true);
 			}
 			
 			if (datosInmueble[0]['cartel'] == 'true') {
@@ -929,14 +988,24 @@ function modificaInmueble(idInmueble) {
 			$("#inmueble_txtArmaempo").val(datosInmueble[0]['armaempo']);
 			$("#inmueble_txtPlantasedif").val(datosInmueble[0]['plantasedif']);
 			$("#inmueble_txtTerraza").val(datosInmueble[0]['terraza']);
+			
+			$("#inmueble_txtCalefaccion").val(datosInmueble[0]['calefaccion']);
+			
+			$("#inmueble_txtCarpinext").val(datosInmueble[0]['carpinext']);
+			$("#inmueble_txtCarpinint").val(datosInmueble[0]['carpinint']);
 			$("#inmueble_txtSolados").val(datosInmueble[0]['solados']);
 			$("#inmueble_txtAntiguedad").val(datosInmueble[0]['antiguedad']);
 			
 			$('#inmueble_cbTipCasa option').each(function() {
-				if ($(this).val() == datosInmueble[0]['tipocasa']) {
+				if ($(this).val() == datosInmueble[0]['tipoCasa']) {
 					$(this).attr('selected','selected');
 				}
 			});
+			
+			
+			if (datosInmueble[0]['telefono'] == 'true') {
+				$('#inmueble_chVPO').attr('checked',true);
+			}
 			
 			if (datosInmueble[0]['telefono'] == 'true') {
 				$('#inmueble_chTelefono').attr('checked',true);
@@ -958,6 +1027,10 @@ function modificaInmueble(idInmueble) {
 				$('#inmueble_chCocinaamu').attr('checked',true);
 			}
 			
+			if (datosInmueble[0]['ascensor'] == 'true') {
+				$('#inmueble_chAscensor').attr('checked',true);
+			}			
+			
 			if (datosInmueble[0]['chimenea'] == 'true') {
 				$('#inmueble_chChimenea').attr('checked',true);
 			}
@@ -968,6 +1041,10 @@ function modificaInmueble(idInmueble) {
 			
 			if (datosInmueble[0]['exterior'] == 'true') {
 				$('#inmueble_chExterior').attr('checked',true);
+			}
+			
+			if (datosInmueble[0]['portero'] == 'true') {
+				$('#inmueble_chPortero').attr('checked',true);
 			}
 			
 			if (datosInmueble[0]['estreno'] == 'true') {
@@ -1081,6 +1158,7 @@ function guardaInmuebles(esPopup){
 			
 			txtCaracteristicas: $("#inmueble_txtCaracteristicas").val(),
 			chEscaparate: $("#inmueble_chEscaparate").is(':checked'),
+			chEscaparateWeb: $("#inmueble_chEscaparateWeb").is(':checked'),
 			chAlquiler: $("#inmueble_chAlquiler").is(':checked'),
 			chVenta: $("#inmueble_chVenta").is(':checked'),
 			chPromocion: $("#inmueble_chPromocion").is(':checked'),

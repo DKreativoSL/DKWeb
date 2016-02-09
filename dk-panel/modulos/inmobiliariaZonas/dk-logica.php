@@ -32,7 +32,7 @@
 				//Si tenemos la idZona igual que la id, la marcamos
 				$selected = ($idSubZona == $row['id']) ? 'selected="selected"':'';
 				//añadimos el option
-				$html .= '<option value="'.$row['id'].'" '.$selected.'>'.$row['nombre'].'</option>';
+				$html .= '<option value="'.$row['id'].'" '.$selected.'>'.utf8_encode($row['nombre']).'</option>';
 			}
 			echo $html;
 		break;
@@ -170,13 +170,15 @@
 		
 		case 'inserta':
 			//recojo todos los datos del anterior form y lo paso para guardarlo en la bdatos
-			$nombre = mysql_real_escape_string($_POST['nombre']);									
-			$descripcion = mysql_real_escape_string($_POST['descripcion']);
-			$subzona = mysql_real_escape_string($_POST['subzona']);		
+			$nombre = mysqli_real_escape_string($conexion,$_POST['nombre']);									
+			$descripcion = mysqli_real_escape_string($conexion,$_POST['descripcion']);
+			$subzona = mysqli_real_escape_string($conexion,$_POST['subzona']);		
 			
 			$consulta = "
-			INSERT INTO inmo_zonas (nombre, descripcion, subzona) 
-			VALUES ('".$nombre."', '".$descripcion."', '".$subzona."')";
+			INSERT INTO inmo_zonas (nombre, descripcion, subzona, estado) 
+			VALUES ('".$nombre."', '".$descripcion."', '".$subzona."', 1)";
+			
+			echo $consulta;
 
 			$retorno = mysqli_query($conexion, $consulta);
 			

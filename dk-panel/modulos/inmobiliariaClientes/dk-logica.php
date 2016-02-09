@@ -333,12 +333,10 @@
 			}
 			
 			$consulta = "
-			INSERT INTO inmo_clientes (usuarioId, nombre, direccion, poblacion, provincia, cpostal, tlf1, tlf2, email, fax, fuente, nif, fechaalta, comentarios, tipoc) 
-			VALUES (".$musuario.", '".$mnombre."', '".$mdireccion."', '".$mpoblacion."', '".$mprovincia."', '".$mcpostal."', '".$mtlf1."', '".$mtlf2."', '".$memail."', '".$mfax."', '".$mfuente."', '".$mnif."', '".$mfecha."', '".$mcomentarios."', '".$mtipoc."')";
+			INSERT INTO inmo_clientes (usuario, clave, nombre, direccion, poblacion, provincia, cpostal, tlf1, tlf2, email, fax, fuente, nif, fechaalta, comentarios, tipoc) 
+			VALUES (".$musuario.", '','".$mnombre."', '".$mdireccion."', '".$mpoblacion."', '".$mprovincia."', '".$mcpostal."', '".$mtlf1."', '".$mtlf2."', '".$memail."', '".$mfax."', '".$mfuente."', '".$mnif."', '".$mfecha."', '".$mcomentarios."', '".$mtipoc."')";
 
 			$retorno = mysqli_query($conexion, $consulta);
-			
-			//TODO Insertar Imagenes -> clientes_dk-inserta.php
 			
 			//si ha insertado correctamente
 			if ($retorno){

@@ -146,7 +146,7 @@
 					$menu.= '<li id="menuConfiguracion"><a href="javascript:;"><i class="icon-home"></i><span class="title">Configuración</span><span class="arrow "></span></a><ul id="menuConfiguracionSecciones" class="sub-menu">';
 					
 					if ($row['menuSecciones'] == true){
-						$menu .= '<li id="menu_secciones" class="menuOptions" onclick="cargaContenido(\'secciones\')"><a href="#"><i class="icon-list"></i><span class="title">Secciones</span></a></li>';
+						$menu .= '<li id="menu_secciones" class="menuOptions" onclick="cargaContenido(\'estructura\')"><a href="#"><i class="icon-list"></i><span class="title">Estructura</span></a></li>';
 					}
 					
 					if ($row['menuParametros'] == true){

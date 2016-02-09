@@ -6,7 +6,16 @@ $(document).ready(function() {
 	$("#botonNuevo").click(function(e) {
 		limpiaForm();       
 		$("#listaZonas").fadeOut(500, function () {
-			$("#camposFormulario").fadeIn(300);
+			$("#camposFormulario").fadeIn(300, function () {
+				jQuery.post("./modulos/inmobiliariaZonas/dk-logica.php", {
+					'accion': "obtenerZonas",
+					'idSubZona': -1,
+					'idZona': -1
+				}, function(data, textStatus){
+					var html = data;
+					$('#subzona').html(html);
+				});
+			});
 		});
 	});
 	actualizaListaZonas();
@@ -30,7 +39,7 @@ $(document).ready(function() {
 				{ "data": "descripcion" },
 				{ "data": "subzona" },
 				{ "data": "estado" },
-				{ "data": "acciones" }
+				{ "data": "acciones", "sortable":false }
 			],
 			"bDeferRender": true,
 			"bDestroy": true,
@@ -58,9 +67,8 @@ $(document).ready(function() {
 			$(this).val('');	
 		});
 		//Limpiamos todos los textarea
-		$('#camposFormulario input[type=textarea]').each(function () {
-			$(this).html('');	
-		});
+		$('#descripcion').html('');
+		
 		//Limpiamos todos los checkbox
 		$('#camposFormulario input[type=checkbox]').each(function () {
 			$(this).removeAttr('checked');

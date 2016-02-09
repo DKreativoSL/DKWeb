@@ -100,7 +100,7 @@ function actualizaListaClientes() {
 				{ "data": "fechas" },
 				{ "data": "usuario" },
 				{ "data": "tipo" },
-				{ "data": "acciones" }
+				{ "data": "acciones","sortable":false }
 			],
 			"bDeferRender": true,
 			"bDestroy": true,

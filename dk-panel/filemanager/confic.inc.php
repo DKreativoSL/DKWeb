@@ -15,5 +15,12 @@
 	
 	
 	$token = $_SESSION['token'];
+	
+	$_SESSION['canAccessFTP'] = false;
+	
+	if ((strlen($_SESSION["ftp_server"])>0) && (strlen($_SESSION["ftp_user_name"])>0) && (strlen($_SESSION["ftp_user_pass"])>0) ) {
+		$_SESSION['canAccessFTP'] = true;	
+	}
+	
 
 ?>

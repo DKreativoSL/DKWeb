@@ -1,4 +1,5 @@
 ﻿    <link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="./modulos/estructura/style.css"/>
     
 	<div id="myModal" class="modal fade" role="dialog" style="display:none">
 		<div class="modal-dialog">
@@ -33,23 +34,22 @@
 	</div>
     
     <div id="listaRegistros">
-        <table width="12%" align="center" cellspacing="0" class="table table-hover" id="tablaRegistros" role="grid">
-            <thead>
-                <tr>
-                    <th width="7%">id</th>
-                    <th width="20%">nombre</th>
-                    <th width="15%">tipo</th>
-                    <th width="15%">orden</th>
-                    <th width="8%" align="right">
-                    	<a id="botonNuevo" href="#" title="A&ntilde;adir una nueva secci&oacute;n" class="botonNuevo">
-                    		<i class="fa fa-plus-circle fa-2x"></i>
-                		</a>
-            		</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>  
-        </table>
+    	<div class="row">
+    		<div class="col-lg-12">
+				<a id="botonNuevo" href="#" title="A&ntilde;adir una nueva secci&oacute;n" class="botonNuevo pull-right">
+					<i class="fa fa-plus-circle fa-2x"></i>
+				</a>
+    		</div>
+    	</div>
+    	<div class="row">
+    		<div class="col-lg-12">
+				<div class="just-padding">
+					<div id="registros" class="list-group list-group-root well">
+						<!-- SE RELLENA CON AJAX -->
+					</div> 
+				</div>
+    		</div>
+    	</div>
     </div>
 
 	<div id="camposFormulario" style="display:none">        
@@ -207,4 +207,4 @@
 	
 	<script type="text/javascript" src="../assets/global/plugins/ckeditor/ckeditor.js"></script>
             
-    <script src="./modulos/secciones/dk-logica.js"></script>
+    <script src="./modulos/estructura/dk-logica.js"></script>

@@ -111,12 +111,14 @@ License: You must have a valid license purchased only from themeforest(the above
 				</li>
 			</ul>
 		</div> -->
+		<!--
 		<div class="forget-password">
 			<h4>Olvidaste tu contrase&ntilde;a?</h4>
 			<p> no te preocupes, click <a href="javascript:;" id="forget-password">	aquí </a>
 				
 			</p>
 		</div>
+		-->
 		<!--<div class="create-account">
 			<p>
 				 No tienes una cuenta?&nbsp; <a href="javascript:;" id="register-btn">
@@ -127,9 +129,9 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- END LOGIN FORM -->
 	<!-- BEGIN FORGOT PASSWORD FORM -->
 	<form class="forget-form" action="index.php" method="post">
-		<h3>Forget Password ?</h3>
+		<h3>Olvidaste tu contrase&ntilde;?</h3>
 		<p>
-			 Enter your e-mail address below to reset your password.
+			 Introduce tu dirección de email para resetearla.
 		</p>
 		<div class="form-group">
 			<div class="input-icon">
@@ -139,9 +141,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		</div>
 		<div class="form-actions">
 			<button type="button" id="back-btn" class="btn">
-			<i class="m-icon-swapleft"></i> Back </button>
-			<button type="submit" class="btn blue pull-right">
-			Submit <i class="m-icon-swapright m-icon-white"></i>
+			<i class="m-icon-swapleft"></i> Atras </button>
+			<button type="submit" class="btn blue pull-right"> Recuperar <i class="m-icon-swapright m-icon-white"></i>
 			</button>
 		</div>
 	</form>
@@ -230,7 +231,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-	 2009 - 2014 &copy; Dk Web 2.0 - Dkreativo Cloud Solutions S.L.
+	 2009 - 2016 &copy; Dk Web 2.0 - Dkreativo Cloud Solutions S.L.
 </div>
 <!-- END COPYRIGHT -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

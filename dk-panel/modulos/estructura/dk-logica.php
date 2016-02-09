@@ -160,7 +160,20 @@
 			
 			echo json_encode($tabla);
 		break;
-		case 'listaRegistros':		
+		
+		case 'listaRegistros':
+			
+			$secciones = array();
+			getAllSectionsV2($secciones,0,$idSitioWeb,$conexion);
+			
+			$registroActual = 0;
+			$_html = '';
+			listaRegistrosIndexada($_html,$registroActual,$secciones);
+			
+			echo $_html;
+		break;
+		
+		case 'listaRegistrosDataTable':		
 			//$idSeccion = mysqli_real_escape_string($conexion, $_POST['seccion']);
 			
 			$consulta = "

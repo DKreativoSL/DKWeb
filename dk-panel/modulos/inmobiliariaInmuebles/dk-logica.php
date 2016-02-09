@@ -12,6 +12,75 @@
 	
 	switch ($accion) 
 	{
+		case 'crearPDF':
+			$idInmueble = mysqli_real_escape_string($conexion, $_POST['idInmueble']);
+			
+			$sql_inmueble = '
+			SELECT *
+			FROM inmo_inmuebles
+			WHERE id = '.$idInmueble;
+			$registro_inmueble = mysqli_query($conexion, $sql_inmueble);
+			
+			$infoInmueble = mysqli_fetch_array($registro_inmueble,MYSQL_ASSOC);
+			
+			if (is_array($infoInmueble)) {
+				$sql_zona = '
+				SELECT z.nombre as nombre, z.subzona
+				FROM inmo_zonas AS z
+				WHERE z.id = '.$infoInmueble['zona'];
+				
+				$registro_zona = mysqli_query($conexion, $sql_zona);
+				$infoZona = mysqli_fetch_array($registro_zona,MYSQL_ASSOC);
+				
+				
+				if (is_array($infoZona)) {
+					//Formateamos las variables
+					$archivoSalida = 'documentos/'.$infoInmueble['id'].'.html';
+					
+					//Precio
+					$precio = number_format ($infoInmueble['precio'], 0, ",", ".");
+					
+					//Imagen principal
+					$ruta_base_publica = getInmoPublica($conexion,$idSitioWeb);
+					$imagenPrincipal = '';
+					for ($i=1;$i<=15;$i++) {
+						$imagen = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
+						$imagen_src = $ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
+						if (file_exists('../'.$imagen)) {
+							$imagenPrincipal = '<img width="1000px" height="465" src="'.$imagen_src.'">';
+							break;
+						}
+					}
+					
+					
+					//Obtenemos la base del documento
+					$escaparate_base = file_get_contents('print_escaparate.html');
+					
+					//Aplicamos las modificaciones
+					$escaparate_base = str_replace('{{imagenPrincipal}}', $imagenPrincipal, $escaparate_base);
+					$escaparate_base = str_replace('{{observaciones}}', $infoInmueble['caracteristicas'], $escaparate_base);
+					$escaparate_base = str_replace('{{precio}}', $precio, $escaparate_base);
+					$escaparate_base = str_replace('{{zona}}', $infoZona['nombre'], $escaparate_base);
+					$escaparate_base = str_replace('{{referencia}}', $infoInmueble['ref'],$escaparate_base);
+					$escaparate_base = str_replace('{{mConstruidos}}', $infoInmueble['metroscuadra'], $escaparate_base);
+					$escaparate_base = str_replace('{{dormitorios}}', $infoInmueble['habitaciones'], $escaparate_base);
+					$escaparate_base = str_replace('{{banos}}', $infoInmueble['banos'], $escaparate_base);
+					
+					//Eliminamos y volvemos a crear el fichero
+					if (!file_exists('../../documentos/')) {
+						mkdir('../../documentos/');
+					}
+					@unlink($archivoSalida);
+					@file_put_contents('../../'.$archivoSalida, $escaparate_base);
+					
+					echo $archivoSalida;
+				} else {
+					echo 'Error al obtener la zona';
+				}
+			} else {
+				echo 'Error al obtener el inmueble';		
+			}	
+		break;
 		case 'obtenerNuevaReferencia':
 			$consulta = '
 			SELECT ref
@@ -74,7 +143,7 @@
 				//Si tenemos la idZona igual que la id, la marcamos
 				$selected = ($idUsuario == $row['id']) ? 'selected="selected"':'';
 				//añadimos el option
-				$html .= '<option value="'.$row['id'].'" '.$selected.'>'.$row['nombre'].'</option>';
+				$html .= '<option value="'.$row['id'].'" '.$selected.'>'.utf8_encode($row['nombre']).'</option>';
 			}
 			echo $html;
 		break;
@@ -107,7 +176,7 @@
 				//Si tenemos la idZona igual que la id, la marcamos
 				$selected = ($idPropietario == $row['id']) ? 'selected="selected"':'';
 				//añadimos el option
-				$html .= '<option value="'.$row['id'].'" '.$selected.'>'.$row['nombre'].'</option>';
+				$html .= '<option value="'.$row['id'].'" '.$selected.'>'.utf8_encode($row['nombre']).'</option>';
 			}
 			echo $html;
 		break;
@@ -129,6 +198,38 @@
 			}
 			echo $html;
 		break;
+		
+		case 'printInmueble':
+			$idInmueble = mysqli_real_escape_string($conexion, $_POST['id']);
+						
+			$consulta = '
+			SELECT * 
+			FROM inmo_inmuebles 
+			WHERE ref = "'.$idInmueble.'";';
+			
+			$registro = mysqli_query($conexion, $consulta);
+			$tabla = array(); //creamos un array
+			//cargamos en un array multidimensional todos los datos de la consulta
+			$i=0;
+		
+			while($row = mysqli_fetch_array($registro,MYSQL_ASSOC)) {
+				//Corregimos la fecha al formato d-m-Y
+				$row['fechaalta'] = formatDate($row['fechaalta']);
+				
+				$tabla[$i] = $row; //array_map("utf8_encode",$row);
+				$i++;
+			}
+
+			$tabla = '<div class="col-xs-3"><img src=""></div><div class="col-xs-9"><div class="col-xs-12"><h2><strong>OBSERVACIONES</strong></h2>observaciones<h1>precio</h1></div></div>';			
+			
+			//escribimos el contenido en impresion
+			$file=fopen("impresion.html","a") or die("Problemas");
+
+			fputs($file,$tabla);
+			fclose($file);
+			
+		break;
+		
 		case 'leerInmueble':
 			$idInmueble = mysqli_real_escape_string($conexion, $_POST['id']);
 						
@@ -410,7 +511,9 @@
 				7 => 'u.nombre',
 			);
 			
-			$consulta .= " ORDER BY " . $columns[$requestData['order'][0]['column']]." ".$requestData['order'][0]['dir'];
+			if (isset($requestData['order'])) {
+				$consulta .= " ORDER BY " . $columns[$requestData['order'][0]['column']]." ".$requestData['order'][0]['dir'];	
+			}
 			
 			//Obtenemos el total
 			$registroTotal = mysqli_query($conexion, $consulta);
@@ -418,12 +521,18 @@
 			$recordsTotalFiltered = $recordsTotal;
 			
 			//Limitamos los registros por pagina
-			$consulta .= " LIMIT ".$requestData['start']." ,".$requestData['length'];
+			if (isset($requestData['start'])) {
+				$consulta .= " LIMIT ".$requestData['start']." ,".$requestData['length'];	
+			}
 			$registro = mysqli_query($conexion, $consulta);
 			
+			$draw = rand(100,1000);
+			if (isset($requestData['draw'])) {
+				$draw = intval( $requestData['draw'] );
+			}
 			
 			$resultado = array(
-				"draw" =>  intval( $requestData['draw'] ),
+				"draw" =>  $draw,
 				"recordsTotal" => $recordsTotal,
 				"recordsFiltered" => $recordsTotalFiltered,
 				"data" => array()
@@ -445,13 +554,13 @@
 					'zona' => utf8_encode($row['nombreZona']),
 					'direccion' => utf8_encode($row['direccion']),
 					'precio' => $row['precio'].' - '.$row['precioalquiler'],
-					'usuario' => $row['nombreUsuario'],
+					'usuario' => utf8_encode($row['nombreUsuario']),
 					'acciones' => $edita.$borra
 				);
 				
 				$resultado['data'][] = $data;		
-
 			}
+			
 			echo json_encode($resultado);
 		break;
 		case 'elimina':
@@ -472,6 +581,7 @@
 			break;
 			
 		case 'guarda':
+			
 			//recojo todos los datos del anterior form y lo paso para guardarlo en la bdatos
 			$mid = mysqli_real_escape_string($conexion, $_POST['txtId']);	
 			$mref = mysqli_real_escape_string($conexion, $_POST['txtRef']);
@@ -495,6 +605,7 @@
 			$mcaracteristicas = mysqli_real_escape_string($conexion, $_POST['txtCaracteristicas']); //a�adir
 			
 			$mescaparate = mysqli_real_escape_string($conexion, $_POST['chEscaparate']);
+			$mescaparateWeb = mysqli_real_escape_string($conexion, $_POST['chEscaparateWeb']);
 
 			$malquiler = mysqli_real_escape_string($conexion, $_POST['chAlquiler']); //a�adir
 			$mventa = mysqli_real_escape_string($conexion, $_POST['chVenta']); //a�adir
@@ -660,7 +771,12 @@
 			vestibulo='".$mvestibulo."', 
 			gasciudad='".$mgasciudad."', 
 			inmueble='".$minmueble."', 
-			escaparate='".$mescaparate."' 
+			escaparate='".$mescaparate."',
+			escaparateWeb='".$mescaparateWeb."',
+			AlquilarCompra='".$mAlquilerCompra."',
+			VPO='".$mVPO."',
+			estado='".$mestado."',
+			tipoCasa='".$mTipoCasa."'
 			WHERE id='".$mid."'";
 			
 			echo $consulta;
@@ -700,6 +816,7 @@
 			$mcaracteristicas = mysqli_real_escape_string($conexion, $_POST['txtCaracteristicas']); //a�adir
 			
 			$mescaparate = mysqli_real_escape_string($conexion, $_POST['chEscaparate']);
+			$mescaparateWeb = mysqli_real_escape_string($conexion, $_POST['chEscaparateWeb']);
 
 			$malquiler = mysqli_real_escape_string($conexion, $_POST['chAlquiler']); //a�adir
 			$mventa = mysqli_real_escape_string($conexion, $_POST['chVenta']); //a�adir
@@ -865,7 +982,13 @@
 			vestibulo='".$mvestibulo."', 
 			gasciudad='".$mgasciudad."', 
 			inmueble='".$minmueble."', 
-			escaparate='".$mescaparate."';";
+			escaparate='".$mescaparate."',
+			escaparateWeb='".$mescaparate."',
+			AlquilarCompra='".$mAlquilerCompra."',
+			VPO='".$mVPO."',
+			estado='".$mestado."',
+			tipoCasa='".$mTipoCasa."'
+			;";
 
 			$retorno = mysqli_query($conexion, $consulta);
 			
@@ -901,6 +1024,16 @@
        				<a href="'.$imagen_src.'" title="" target="_blank">
        					<img height="50px" src="'.$imagen_src.'" />
    					</a>';
+				}else{		//compruebo que sea imagen Web
+					$imagen = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'w.'.$i.'.jpg';
+					$imagen_src = $ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'w.'.$i.'.jpg';
+
+					if (file_exists('../'.$imagen)) {
+						$imagenes .= '
+						<a href="'.$imagen_src.'" title="" target="_blank">
+							<img height="50px" src="'.$imagen_src.'" />
+						</a>';
+					}					
 				}
 			}
 			echo $imagenes;

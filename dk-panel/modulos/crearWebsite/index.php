@@ -60,6 +60,30 @@
             </div>
     	</div>
 	</div>
+	
+	<div class="panel panel-default">
+        <div class="panel-heading">                   
+            <h3 class="panel-title text-left">Configuración Web</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    Nombre del sitio<br />
+                    <input type="text" id="nombreWebsite" value="" size="50" maxlength="150" class="form-control" />
+                </div>
+                <div class="col-lg-4">
+                    Dominio *<br />
+                    <input type="text" id="dominio" value="" size="25" maxlength="50" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    Descripci&oacute;n<br />
+                    <textarea cols="50" rows="2" id="descripcion" class="form-control"></textarea>
+                </div>
+            </div>
+    	</div>
+	</div>
     <!-- fin datos personales del usuario -->
     
 	<div class="row">

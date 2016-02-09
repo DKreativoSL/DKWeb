@@ -23,7 +23,7 @@
 	
 	$ruta_final_privada = $pre_ruta . $row['inmo_rutaPrivada'] . DIRECTORY_SEPARATOR . $idSitioWeb . DIRECTORY_SEPARATOR;
 	
-	$ruta_final_Mostrarprivada = '../' . $row['inmo_rutaPrivada'] . DIRECTORY_SEPARATOR . $idSitioWeb . DIRECTORY_SEPARATOR;
+	$ruta_final_Mostrarprivada = '' . $row['inmo_rutaPrivada'] . DIRECTORY_SEPARATOR . $idSitioWeb . DIRECTORY_SEPARATOR;
 	$ruta_final_Mostrarprivada = str_replace('\\','/',$ruta_final_Mostrarprivada);
 ?>
 

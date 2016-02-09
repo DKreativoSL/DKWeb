@@ -27,7 +27,7 @@
 				//Si tenemos la idZona igual que la id, la marcamos
 				$selected = ($idPropietario == $row['id']) ? 'selected="selected"':'';
 				//añadimos el option
-				$html .= '<option value="'.$row['id'].'" '.$selected.'>'.$row['nombre'].'</option>';
+				$html .= '<option value="'.$row['id'].'" '.$selected.'>'.utf8_encode($row['nombre']).'</option>';
 			}
 			echo $html;
 		break;
@@ -49,7 +49,7 @@
 				$selected = ($refInmueble == $row['ref']) ? 'selected="selected"':'';
 				
 				//añadimos el option
-				$html .= '<option value="'.$row['ref'].'" '.$selected.'>'.$row['ref'].' - '.$row['inmueble'].'</option>';
+				$html .= '<option value="'.$row['ref'].'" '.$selected.'>'.$row['ref'].' - '.utf8_encode($row['inmueble']).'</option>';
 			}
 			echo $html;
 		break;
@@ -65,7 +65,7 @@
 			while($row = mysqli_fetch_array($registro,MYSQL_ASSOC))
 			{
 				//añadimos el option
-				$html .= '<option value="'.$row['ref'].'">'.$row['ref'].' - '.$row['inmueble'].' - '.$row['direccion'].' - '.$row['precioalquiler'].'€</option>';
+				$html .= '<option value="'.$row['ref'].'">'.$row['ref'].' - '.utf8_encode($row['inmueble']).' - '.utf8_encode($row['direccion']).' - '.$row['precioalquiler'].'€</option>';
 			}
 			echo $html;
 		break;
@@ -131,13 +131,21 @@
 			LEFT JOIN usuarios AS u ON v.usuario = u.id
 			WHERE v.cliente = ".$idCliente;
 			
+			//echo $consulta;
+			
 			//Obtenemos el total
 			$registroTotal = mysqli_query($conexion, $consulta);
 			$recordsTotal = mysqli_num_rows($registroTotal);
 			$recordsTotalFiltered = $recordsTotal;
 			
 			//Limitamos los registros por pagina
-			$consulta .= " LIMIT ".$requestData['start']." ,".$requestData['length'];
+			
+			if (isset($requestData['start'])) {
+				$consulta .= " LIMIT ".$requestData['start']." ,".$requestData['length'];	
+			} else {
+				$consulta .= " LIMIT 0,100";
+			}
+			
 			$registro = mysqli_query($conexion, $consulta);
 			
 			$resultado = array(
@@ -148,10 +156,10 @@
 			);
     
 			$totalRegistros = 0;
-			while($row = mysqli_fetch_array($registro))
+			while($row = mysqli_fetch_array($registro,MYSQL_ASSOC))
 			{
 				//$edita = '<a href=\"#\" onclick=\"modificaApuntes('.$row['id'].')\" class=\"iconModificar\"><i class=\"fa fa-edit fa-2x\"></i></a>';
-				$edita = '<a href="#" onclick="modificaApuntes('.$row['id'].')" class="iconModificar"><i class="fa fa-edit fa-2x"></i></a>';
+				$edita = '<a href="#" onclick="modificaApuntesPopup('.$row['id'].')" class="iconModificar"><i class="fa fa-edit fa-2x"></i></a>';
 				$borra = '<a class="delete" href="#" onclick="eliminaApuntes('.$row['id'].')"><i class="fa fa-trash-o fa-2x"></i></a>';		
 				
 				switch ($row['tipo']) {
@@ -189,7 +197,7 @@
 					'cita' => $cita,
 					'inmueble' => $row['inmueble_ref'],
 					'comentario' => $comentario,
-					'usuario' => $row['usuario_nombre'],
+					'usuario' => utf8_encode($row['usuario_nombre']),
 					'acciones' => $edita.$borra
 				);
 				
@@ -419,20 +427,7 @@
 			$comentarios = mysqli_real_escape_string($conexion,$_POST['apuntes_comentarios']);
 			//$seguimiento = mysqli_real_escape_string($conexion,$_POST['chSeguimiento']);
 			$tipo = mysqli_real_escape_string($conexion,$_POST['apuntes_cbApunte']);					
-			/*		
-			$consulta = "
-			UPDATE inmo_visitas SET 
-			cliente='".$cliente."', 
-			inmueble='".$inmueble."', 
-			usuario = '".$usuario."', 
-			fechaaviso = '".$fechaaviso."', 
-			comentarios='".$comentarios."', 
-			datos='".$datos."', 
-			seguimiento='".$seguimiento."', 
-			tipo='".$tipo."' 
-			WHERE id='".$id."'";
-			*/
-			
+
 			$consulta = "
 			UPDATE inmo_visitas SET 
 			cliente='".$cliente."',  

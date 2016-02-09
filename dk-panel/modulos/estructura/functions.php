@@ -266,6 +266,73 @@ function getAllSections(&$dataReturn,$parent,$conexion) {
 	}
 }
 
+function getAllSectionsV2(&$dataReturn,$parent,$idSitioWeb,$conexion) {
+	
+	$sql = '
+	SELECT id, nombre, descripcion, seccion, tipo, privada, orden
+	FROM secciones
+	WHERE seccion = '.$parent.'
+	AND idsitioweb = '.$idSitioWeb.'
+	AND estado = 1';
+	
+	$result = mysqli_query($conexion, $sql);
+	$infoSeccion = array();
+	$i=0;
+	while($row = mysqli_fetch_array($result, MYSQL_ASSOC))
+	{
+		$infoSeccion[$i] = $row;
+		$i++;
+	}
+	foreach ($infoSeccion as $id=>$section) {
+		
+		//Guardamos id de la seccion 
+		$idSection = $section['id'];
+		
+		$dataReturn[$idSection]['id'] 			= $idSection;
+		$dataReturn[$idSection]['nombre'] 		= $section['nombre'];
+		$dataReturn[$idSection]['descripcion'] 	= $section['descripcion'];
+		$dataReturn[$idSection]['seccion'] 		= $section['seccion'];
+		$dataReturn[$idSection]['tipo'] 		= $section['tipo'];
+		$dataReturn[$idSection]['privada'] 		= $section['privada'];
+		$dataReturn[$idSection]['orden'] 		= $section['orden'];
+		$dataReturn[$idSection]['childrens'] 	= array();
+		$dataReturn[$idSection]['articles'] 	= array();
+
+		// Llamada recursiva a la funcion para llenar los hijos de esta seccion
+		getAllSectionsV2($dataReturn[$idSection]['childrens'],$idSection,$idSitioWeb,$conexion);
+	}
+}
+
+
+function listaRegistrosIndexada(&$html,&$registroActual,$secciones) {
+	foreach ($secciones as $idSeccion => $seccion) {
+		
+		$iconoFlecha = '';
+		if (!empty($seccion['childrens'])) {
+			$iconoFlecha = '<i id="flecha-'.$registroActual.'" class="glyphicon glyphicon-chevron-right"></i>';
+		}
+		
+		$html .= '
+		<div class="list-group-item">
+			'.$iconoFlecha.'
+			<a onClick="javascript:cambiarFlecha('.$registroActual.')" href="#item-'.$registroActual.'" data-toggle="collapse" class="list-group-title">'.$seccion['nombre'].'</a>
+			<span class="pull-right iconoLista iconoBorrar" onclick="elimina('.$idSeccion.')"><i class="fa fa-2x fa-trash-o"></i></span>
+			<span class="pull-right iconoLista iconoEditar" onclick="modifica('.$idSeccion.')"><i class="fa fa-2x fa-edit"></i></span>
+			<span class="pull-right iconoLista iconoCopiar" onclick="duplicar('.$idSeccion.')"><i class="fa fa-2x fa-copy"></i></span>
+		</div>
+		';
+		
+		if (!empty($seccion['childrens'])) {
+			$html .= '<div class="list-group collapse" id="item-'.$registroActual.'">';
+				$registroActual++;
+				listaRegistrosIndexada($html,$registroActual,$seccion['childrens']);
+			$html .= '</div>';
+		} else {
+			$registroActual++;
+		}
+	}
+}
+
 function getAllSectionsWithData(&$dataReturn,$parent,$conexion) {
 	
 	$sql = '
