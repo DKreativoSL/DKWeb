@@ -1,0 +1,5 @@
+RewriteEngine on
+
+Rewriterule ^(.+)-(.+)/(.+)-(.+)/$ index.php?sectionName=$1&sectionId=$2&postName=$3&postId=$4 [L,NC]
+Rewriterule ^(.+)-(.+)/$ index.php?sectionName=$1&sectionId=$2
+

@@ -130,10 +130,10 @@
 			$consulta = '
 			SELECT id, tipo 
 			FROM secciones 
-			WHERE id = "'.$seccion.'" 
+			WHERE (id = "'.$seccion.'" or nombre = "'.$seccion.'")
 			AND idSitioWeb = "'.$idSitioWeb.'"
 			AND estado = 1';
-			
+
 			$resultado = mysqli_query($conexion, $consulta);
 			$registroSeccion = mysqli_fetch_array($resultado);
 			
@@ -146,7 +146,7 @@
 						$consulta = '
 						SELECT id, titulo, cuerpo, orden 
 						FROM articulos 
-						WHERE idSeccion = "'.$seccion.'"
+						WHERE idSeccion = "'.$registroSeccion['id'].'"
 						AND estado = 1 
 						ORDER BY id '.$orden.' 
 						LIMIT '.$inicio.','.$limit;
@@ -164,7 +164,7 @@
 						$consulta = '
 						SELECT id, titulo, subtitulo, fecha, fechaPublicacion, cuerpo, cuerpoResumen, orden, imagen, archivo, url, campoExtra 
 						FROM articulos 
-						WHERE idSeccion = "'.$seccion.'"
+						WHERE idSeccion = "'.$registroSeccion['id'].'"
 						AND estado = 1 
 						ORDER BY id '.$orden.' 
 						LIMIT '.$inicio.','.$limit;

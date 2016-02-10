@@ -57,9 +57,10 @@
 							$error = "- Error al crear la sección";
 							}else{
 								//si se añadió bien la sección, hago que tome el último id para añadirlo al artículo
-								$infoArticulo['idSeccion'] = "Last_insert_id";
+								$idSeccion = "Last_insert_id";
 								}
 					}
+					/*
 					//Sino se pasa usuario, tomo por defecto el usuario propietario del sitio
 					if (!$infoArticulo['idUsuario'])
 					{
@@ -69,7 +70,8 @@
 					} else{
 						$idUsuario = $idUsuarioPropietario;
 					}
-					
+					*/
+					$idUsuario = $idUsuarioPropietario;
 					//Sino lleva fecha de creación/publicación, le pongo la fecha de hoy
 					if (!$infoArticulo['fecha']){
 						$infoArticulo['fecha'] = date("Y-m-d H:i:s");
@@ -86,18 +88,16 @@
 						$consulta = '
 							SELECT id
 							FROM articulos
-							WHERE idSeccion = "'.$infoArticulo['idSeccion'].'"
+							WHERE idSeccion = "'.$idSeccion.'"
 							AND subtitulo = "'.$infoArticulo['subtitulo'].'"';
 							
 						$resultado = mysqli_query($conexion, $consulta);
 						$row = mysqli_fetch_array($resultado);
 						if ($row[0]){
 							$sql = 'UPDATE articulos SET ';
-							$sql .= 'idSeccion='.$infoArticulo['idSeccion'].', ';
-							$sql .= 'idUsuario="'.$infoArticulo['idUsuario'].'", ';
+							$sql .= 'idUsuario="'.$idUsuario.'", ';
 							$sql .= 'titulo="'.$infoArticulo['titulo'].'", ';
 							$sql .= 'subtitulo="'.$infoArticulo['subtitulo'].'", ';
-							$sql .= 'fecha="'.$infoArticulo['fecha'].'", ';
 							$sql .= 'fechaPublicacion="'.$infoArticulo['fechaPublicacion'].'", ';
 							$sql .= 'cuerpo="'.addslashes($infoArticulo['cuerpo']).'", ';
 							$sql .= 'cuerpoResumen="'.$infoArticulo['cuerpoResumen'].'", ';
@@ -106,11 +106,12 @@
 							$sql .= 'archivo="'.$infoArticulo['archivo'].'", ';
 							$sql .= 'url="'.$infoArticulo['url'].'", ';
 							$sql .= 'campoExtra="'.$infoArticulo['campoExtra'].'", ';
-							$sql .= 'estado=1; ';							
+							$sql .= 'estado="1" ';
+							$sql .= 'WHERE id = "'.$row[0].'"';
 						}else{ //SINO TIENE NADA INSERTO COMO NUEVO
 							$sql = 'INSERT INTO articulos SET ';
-							$sql .= 'idSeccion='.$infoArticulo['idSeccion'].', ';
-							$sql .= 'idUsuario="'.$infoArticulo['idUsuario'].'", ';
+							$sql .= 'idSeccion='.$idSeccion.', ';
+							$sql .= 'idUsuario="'.$idUsuario.'", ';
 							$sql .= 'titulo="'.$infoArticulo['titulo'].'", ';
 							$sql .= 'subtitulo="'.$infoArticulo['subtitulo'].'", ';
 							$sql .= 'fecha="'.$infoArticulo['fecha'].'", ';
@@ -122,12 +123,13 @@
 							$sql .= 'archivo="'.$infoArticulo['archivo'].'", ';
 							$sql .= 'url="'.$infoArticulo['url'].'", ';
 							$sql .= 'campoExtra="'.$infoArticulo['campoExtra'].'", ';
-							$sql .= 'estado=1; ';
-				
-							if (!mysqli_query($conexion, $sql)){
+							$sql .= 'estado="1"; ';
+						}
+						
+						if (!mysqli_query($conexion, $sql)){
 								$error .= "- Error al insertar artículo";
 								}
-						}
+						//echo $sql;
 					}
 		
 					if ($error){
