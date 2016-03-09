@@ -33,7 +33,6 @@
 </div>
 
 <div id="camposFormulario" style="display:none">
-	
 	<form>
 		<input name="id" type="hidden" id="id" value="" />
 		<fieldset class="form-group">
