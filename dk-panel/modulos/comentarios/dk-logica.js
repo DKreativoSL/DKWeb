@@ -30,8 +30,9 @@ tinymce.init({
 			
 		$("#botonNuevo").click(function(e) {
 			limpiaForm();       
-			$("#listaArticulos").fadeOut(500);
-			$("#camposFormulario").fadeIn(3000);
+			$("#listaArticulos").fadeOut('fast', function () {
+				$("#camposFormulario").fadeIn('fast');
+			});
 		});
 		
 		$("#botonResponder").click(function(e) {
@@ -48,8 +49,9 @@ tinymce.init({
 						
 						$('#tablaRegistros').dataTable()._fnAjaxUpdate();
 						
-						$("#listaArticulos").fadeIn(500);
-						$("#responder").fadeOut(500);
+						$("#responder").fadeOut('fast', function () {
+							$("#listaArticulos").fadeIn('fast');
+						});
 					} else {
 						mensaje("Ocurrió algún problema crear el comentario. <br>Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 5);
 					}
@@ -65,8 +67,9 @@ tinymce.init({
 		$("#idResponderPadre").val(idComentario);
 		$("#comentarioResponder").val('');
 		
-		$("#listaArticulos").fadeOut(500);
-		$("#responder").fadeIn(500);
+		$("#listaArticulos").fadeOut('fast', function () {
+			$("#responder").fadeIn('fst');
+		});
 	}
 
 	function cambiarEstado(idComentario,estado) {
@@ -181,9 +184,9 @@ tinymce.init({
 						}
 					});
 					
-					$("#listaArticulos").fadeOut(500,function () {
+					$("#listaArticulos").fadeOut('fast',function () {
 						$('#tablaRegistros').dataTable()._fnAjaxUpdate();
-						$("#camposFormulario").fadeIn(500);
+						$("#camposFormulario").fadeIn('fast');
 					});
 				}else{
 					mensaje("Ocurrió algún problema al cargar el registro. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
@@ -212,8 +215,8 @@ tinymce.init({
 					}else{
 						mensaje("Guardado correctamente","success","check", 5);
 						
-						$("#camposFormulario").fadeOut(500, function () {
-							$("#listaArticulos").fadeIn(500);	
+						$("#camposFormulario").fadeOut('fast', function () {
+							$("#listaArticulos").fadeIn('fast');	
 						});
 						
 					}

@@ -97,8 +97,8 @@ $(document).ready(function() {
 	});
 				
 	$('#botonVolverInmueble').click(function () {
-		$("#camposFormularioInmuebles").fadeOut(500, function () {
-			$("#listaInmuebles").fadeIn(300);
+		$("#camposFormularioInmuebles").fadeOut('fast', function () {
+			$("#listaInmuebles").fadeIn('fast');
 		});
 	});
 	
@@ -123,8 +123,8 @@ $(document).ready(function() {
 			limpiaFormInmuebles();
 			obtenerUsuarioInmueble(idUsuario);
 			obtenerPropietarioInmueble(0);
-			$("#listaInmuebles").fadeOut(500, function () {
-				$("#camposFormularioInmuebles").fadeIn(300);
+			$("#listaInmuebles").fadeOut('fast', function () {
+				$("#camposFormularioInmuebles").fadeIn('fast');
 			});
 		}
 		obtenerNuevaReferencia();
@@ -1209,8 +1209,8 @@ function modificaInmueble(idInmueble) {
 				$("#inmueble_selectPropietario").trigger("chosen:updated");
 				
 			} else {
-				$("#listaInmuebles").fadeOut(500, function () {
-					$("#camposFormularioInmuebles").fadeIn(500);	
+				$("#listaInmuebles").fadeOut('fast', function () {
+					$("#camposFormularioInmuebles").fadeIn('fast');	
 				});
 			}
 
@@ -1348,9 +1348,9 @@ function guardaInmuebles(esPopup){
 						//Ocultamos el popup
 						$('#popupInmobiliaria').modal('hide');
 					} else {
-						$("#camposFormularioInmuebles").fadeOut(500, function () {
+						$("#camposFormularioInmuebles").fadeOut('fast', function () {
 							$('#tablaRegistrosInmuebles').dataTable()._fnAjaxUpdate();
-							$("#listaInmuebles").fadeIn(500);
+							$("#listaInmuebles").fadeIn('fast');
 						});
 					}						
 				}

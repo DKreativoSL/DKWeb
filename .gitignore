@@ -8,3 +8,6 @@ _scripts/testFTP.php
 .project
 _scripts/exportV1/output.json
 dk-panel/index.php
+dk-panel/conexion.php
+API/ws/index.php
+dk-panel/conexion.php

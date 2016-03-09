@@ -13,8 +13,8 @@ $(document).ready(function() {
 	$("#botonNuevo").click(function(e) {
 		limpiaForm();
 		obtenerUsuario(idUsuario);       
-		$("#listaClientes").fadeOut(500, function () {
-			$("#camposFormulario").fadeIn(300);
+		$("#listaClientes").fadeOut('fast', function () {
+			$("#camposFormulario").fadeIn('fast');
 		});
 	});		
 	actualizaListaClientes();
@@ -197,8 +197,8 @@ function limpiaForm() {
 				
 				obtenerDocumentoCliente(datosCliente[0]['id']);
 
-				$("#listaClientes").fadeOut(500, function () {
-					$("#camposFormulario").fadeIn(500);
+				$("#listaClientes").fadeOut('fast', function () {
+					$("#camposFormulario").fadeIn('fast');
 					
 					cargarInmuebles();
 					cargarApuntes();
@@ -265,9 +265,9 @@ function limpiaForm() {
 						}
 						mensaje("Guardado correctamente","success","check", 5);
 						
-						$("#camposFormulario").fadeOut(500, function () {
+						$("#camposFormulario").fadeOut('fast', function () {
 							$('#tablaRegistrosClientes').dataTable()._fnAjaxUpdate();
-							$("#listaClientes").fadeIn(500);
+							$("#listaClientes").fadeIn('fast');
 						});
 						
 					}

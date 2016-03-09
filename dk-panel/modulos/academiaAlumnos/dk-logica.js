@@ -25,8 +25,8 @@ $(document).ready(function() {
 			
 	$("#botonNuevoAlumno").click(function(e) {
 		limpiaForm();
-		$("#listaAlumnos").fadeOut(500, function () {
-			$("#camposFormulario").fadeIn(300);
+		$("#listaAlumnos").fadeOut('fast', function () {
+			$("#camposFormulario").fadeIn('fast');
 		});
 	});		
 	actualizaListaAlumnos();		
@@ -284,8 +284,8 @@ $(document).ready(function() {
 					$("#tlf1").val(datosAlumno[0]['tlf1']);
 					$("#tlf2").val(datosAlumno[0]['tlf2']);
 					$("#sobreti").val(datosAlumno[0]['sobreti']);					
-					$("#listaAlumnos").fadeOut(500, function () {
-						$("#camposFormulario").fadeIn(500);	
+					$("#listaAlumnos").fadeOut('fast', function () {
+						$("#camposFormulario").fadeIn('fast');	
 					});
 					
 					getTablaCursosAlumno();
@@ -332,9 +332,9 @@ $(document).ready(function() {
 						}
 						mensaje("Guardado correctamente","success","check", 5);
 						
-						$("#camposFormulario").fadeOut(500, function () {
+						$("#camposFormulario").fadeOut('fast', function () {
 							$('#tablaRegistros').dataTable()._fnAjaxUpdate();
-							$("#listaAlumnos").fadeIn(500);
+							$("#listaAlumnos").fadeIn('fast');
 						});
 						
 					}

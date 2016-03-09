@@ -194,7 +194,7 @@
 				$duplicar = '<a href=\"#\" onclick=\"duplicar('.$row['id'].')\" class=\"iconDuplicar\"><i class=\"fa fa-2x fa-copy\"></i></a>';
 				$edita = '<a href=\"#\" onclick=\"modifica('.$row['id'].')\" class=\"iconModificar\"><i class=\"fa fa-2x fa-edit\"></i></a>';
 				$borra = '<a href=\"#\" onclick=\"elimina('.$row['id'].')\"><i class=\"fa fa-2x fa-trash-o\"></i></a>';
-				$borra .= '<button type=\"button\" id=\"btn_'.$row['id'].'\" style=\"display:none\" class=\"btn btn-info btn-lg\" data-toggle=\"modal\" data-target=\"#myModal\">Eliminar</button>';
+				//$borra .= '<button type=\"button\" id=\"btn_'.$row['id'].'\" style=\"display:none\" class=\"btn btn-info btn-lg\" data-toggle=\"modal\" data-target=\"#myModal\">Eliminar</button>';
 				
 				$tabla.='{"id":"'.$row['id'].'","nombre":"'.$row['nombre'].'","tipo":"'.$row['tipo'].'","orden":"'.$row['orden'].'","acciones":"'.$duplicar.$edita.$borra.'"},';		
 				$i++;
@@ -206,6 +206,7 @@
 		case 'moverContenidoEliminarSeccion':
 			$idRegistro = mysqli_real_escape_string($conexion, $_POST['id']);
 			$idToMove = mysqli_real_escape_string($conexion, $_POST['idToMove']);
+			
 			
 			//Obtenemos todas las secciones hijas
 			$dataReturn = array();
@@ -230,6 +231,7 @@
 			
 			//echo $sql_updateArticulos;
 			$result = mysqli_query($conexion, $sql_updateArticulos);
+			
 			
 			//Eliminamos logicamente la seccion
 			$sql_eliminarLogico = '

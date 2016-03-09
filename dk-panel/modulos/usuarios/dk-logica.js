@@ -6,8 +6,9 @@
 			
 		$("#botonNuevo").click(function(e) {
 			limpiaForm();       
-			$("#listaRegistros").fadeOut(500);
-			$("#camposFormulario").fadeIn(3000);
+			$("#listaRegistros").fadeOut('fast', function () {
+				$("#camposFormulario").fadeIn('fast');
+			});
 		});		
 		actualizaListaRegistros();
 		
@@ -135,8 +136,8 @@
 					/*Cargo los permisos del usuario*/
 					cargaPermisos(datos[0]['id']);
 
-					$("#listaRegistros").fadeOut(500, function () {
-						$("#camposFormulario").fadeIn(500);
+					$("#listaRegistros").fadeOut('fast', function () {
+						$("#camposFormulario").fadeIn('fast');
 					});
 					
 				}else{
@@ -212,9 +213,9 @@
 						mensaje("Registro guardado correctamente.","success","check", 5);
 						$("#id").val(data);
 						
-						$("#camposFormulario").fadeOut(500, function () {
+						$("#camposFormulario").fadeOut('fast', function () {
 							$('#tablaRegistros').dataTable()._fnAjaxUpdate();
-							$("#listaRegistros").fadeIn(500);
+							$("#listaRegistros").fadeIn('fast');
 						});
 						
 					}else{

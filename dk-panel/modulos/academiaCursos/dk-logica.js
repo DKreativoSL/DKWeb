@@ -6,8 +6,8 @@
 		$("#botonNuevo").click(function(e) {
 			limpiaForm();
 			$('#id').val(0);
-			$("#listaRegistros").fadeOut(500, function () {
-				$("#camposFormulario").fadeIn(500);
+			$("#listaRegistros").fadeOut('fast', function () {
+				$("#camposFormulario").fadeIn('fast');
 			});
 		});
 
@@ -32,8 +32,8 @@
 					//Actualizo el menu lateral
 					cargaMenuLateral();
 					
-					$("#duplicarFormulario").fadeOut(500, function () {
-						$("#listaRegistros").fadeIn(500);
+					$("#duplicarFormulario").fadeOut('fast', function () {
+						$("#listaRegistros").fadeIn('fast');
 					});
 				}else{
 					mensaje("Ocurrió algún problema al cargar. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
@@ -62,8 +62,8 @@
 				$('#seccionOld').val(dataJSON[0].nombre);
 				$('#seccionNew').val('Copia de ' + dataJSON[0].nombre);
 				
-				$("#listaRegistros").fadeOut(500, function () {
-					$("#duplicarFormulario").fadeIn(500);
+				$("#listaRegistros").fadeOut('fast', function () {
+					$("#duplicarFormulario").fadeIn('fast');
 				});
 			}else{
 				mensaje("Ocurrió algún problema al cargar. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
@@ -175,8 +175,8 @@
 				$("#nombre").val(datos[0]['nombre']);
 				$("#descripcion").val(datos[0]['descripcion']);					
 										
-				$("#listaRegistros").fadeOut(500,function () {
-					$("#camposFormulario").fadeIn(500);
+				$("#listaRegistros").fadeOut('fast',function () {
+					$("#camposFormulario").fadeIn('fast');
 				});					
 			}else{
 				mensaje("Ocurrió algún problema al cargar el registro. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
@@ -210,9 +210,9 @@
 						$("#id").val(data);					
 						mensaje("Registro guardado correctamente.","success","check", 5);
 						
-						$("#camposFormulario").fadeOut(500,function () {
+						$("#camposFormulario").fadeOut('fast',function () {
 							$('#tablaRegistros').dataTable()._fnAjaxUpdate();
-							$("#listaRegistros").fadeIn(500);
+							$("#listaRegistros").fadeIn('fast');
 						});
 						
 						//cambian las secciones, actualizo el menú

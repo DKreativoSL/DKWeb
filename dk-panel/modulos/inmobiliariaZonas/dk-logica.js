@@ -5,8 +5,8 @@ $(document).ready(function() {
 			
 	$("#botonNuevo").click(function(e) {
 		limpiaForm();       
-		$("#listaZonas").fadeOut(500, function () {
-			$("#camposFormulario").fadeIn(300, function () {
+		$("#listaZonas").fadeOut('fast', function () {
+			$("#camposFormulario").fadeIn('fast', function () {
 				jQuery.post("./modulos/inmobiliariaZonas/dk-logica.php", {
 					'accion': "obtenerZonas",
 					'idSubZona': -1,
@@ -105,8 +105,8 @@ $(document).ready(function() {
 					$('#subzona').html(html);
 				});
 
-				$("#listaZonas").fadeOut(500, function () {
-					$("#camposFormulario").fadeIn(500);	
+				$("#listaZonas").fadeOut('fast', function () {
+					$("#camposFormulario").fadeIn('fast');	
 				});
 				
 				}else{
@@ -148,9 +148,9 @@ $(document).ready(function() {
 						limpiaForm();
 						mensaje("Guardado correctamente","success","check", 5);
 						
-						$("#camposFormulario").fadeOut(500, function () {
+						$("#camposFormulario").fadeOut('fast', function () {
 							$('#tablaRegistros').dataTable()._fnAjaxUpdate();
-							$("#listaZonas").fadeIn(500);
+							$("#listaZonas").fadeIn('fast');
 						});
 						
 					}

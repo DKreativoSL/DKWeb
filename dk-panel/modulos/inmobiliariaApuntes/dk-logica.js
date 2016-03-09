@@ -51,8 +51,8 @@ $(document).ready(function() {
 			$('#botonGuardaVisita').hide();
 			$('#popupApuntes').modal('show');
 		} else {			
-			$("#listaVisitas").fadeOut(500, function () {
-				$("#camposFormularioVisitas").fadeIn(300);
+			$("#listaVisitas").fadeOut('fast', function () {
+				$("#camposFormularioVisitas").fadeIn('fast');
 			});
 			limpiaFormApuntes();
 			
@@ -447,8 +447,8 @@ function modificaApuntes(idVisita){
 			*/
 			$("#apuntes_comentarios").val(datosVisita[0]['comentarios']);
 			
-			$("#listaVisitas").fadeOut(500, function () {
-				$("#camposFormularioVisitas").fadeIn(500);	
+			$("#listaVisitas").fadeOut('fast', function () {
+				$("#camposFormularioVisitas").fadeIn('fast');	
 			});
 		} else{
 			mensaje("Ocurrió algún problema al cargar el registro. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
@@ -498,9 +498,9 @@ function modificaApuntes(idVisita){
 							//Ocultamos el popup
 							$('#popupApuntes').modal('hide');
 						} else {
-							$("#camposFormularioVisitas").fadeOut(500, function () {
+							$("#camposFormularioVisitas").fadeOut('fast', function () {
 								$('#tablaRegistrosVisitas').dataTable()._fnAjaxUpdate();
-								$("#listaVisitas").fadeIn(500);
+								$("#listaVisitas").fadeIn('fast');
 							});
 						}
 					}

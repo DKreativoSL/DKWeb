@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 		
 	$('#moverEliminar').click(function () {
-		var idToMove = $('#selectPopupRecuperar').val();
+		var idToMove = $('#selectPopupEliminar option:selected').val();
 		var idElimina = $(this).attr('idElimina');
 		moverContenidoEliminarSeccion(idElimina,idToMove);
 	});
@@ -47,8 +47,9 @@ $(document).ready(function() {
 		
 	$("#botonNuevo").click(function(e) {
 		limpiaForm();
-		$("#listaRegistros").fadeOut(500);
-		$("#camposFormulario").fadeIn(3000);
+		$("#listaRegistros").fadeOut('fast', function () {
+			$("#camposFormulario").fadeIn('fast');	
+		});
 	});
 		
 	//si el tipo de sección es 2 (Personalizado) activo o no el botón de generar formulario
@@ -75,8 +76,6 @@ $(document).ready(function() {
 			'tipo': tipoDuplicacion		
 		},
 		function(data, textStatus){
-			console.log(data);
-			
 			if (data == "OK") {
 				mensaje("Sección duplicada correctamente.","success","check", 5);
 				
@@ -86,8 +85,9 @@ $(document).ready(function() {
 				//Actualizo el menu lateral
 				cargaMenuLateral();
 				
-				$("#listaRegistros").fadeIn(500);
-				$("#duplicarFormulario").fadeOut(500);
+				$("#listaRegistros").fadeIn('fast', function () {
+					$("#duplicarFormulario").fadeOut('fast');
+				});
 			}else{
 				mensaje("Ocurrió algún problema al cargar. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
 			}
@@ -113,8 +113,9 @@ function duplicar(idSeccion) {
 			$('#seccionOld').val(dataJSON[0].nombre);
 			$('#seccionNew').val('Copia de ' + dataJSON[0].nombre);
 			
-			$("#listaRegistros").fadeOut(500);
-			$("#duplicarFormulario").fadeIn(500);
+			$("#listaRegistros").fadeOut('fast', function () {
+				$("#duplicarFormulario").fadeIn('fast');
+			});
 		}else{
 			mensaje("Ocurrió algún problema al cargar. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
 		}
@@ -301,8 +302,8 @@ function modifica(idRegistro){
 				if ( datos[0]['ch_CampoCampoExtra'] == 1)
 					$("#ch_CampoCampoExtra").attr("checked",true);
 									
-				$("#listaRegistros").fadeOut(500,function () {
-					$("#camposFormulario").fadeIn(500);
+				$("#listaRegistros").fadeOut('fast',function () {
+					$("#camposFormulario").fadeIn('fast');
 				});
 				
 				//si el tipo es personalizado desbloqueo botón
@@ -361,9 +362,9 @@ function guarda(){
 					}							
 					mensaje("Registro guardado correctamente.","success","check", 5);
 					
-					$("#camposFormulario").fadeOut(500,function () {
+					$("#camposFormulario").fadeOut('fast',function () {
 						actualizaListaRegistros();
-						$("#listaRegistros").fadeIn(500);
+						$("#listaRegistros").fadeIn('fast');
 					});
 					
 					//cambian las secciones, actualizo el menú
@@ -378,7 +379,8 @@ function guarda(){
 	
 function popupEliminar(idElimina) {
 	
-	$("#btn_" + idElimina).trigger("click");
+	//$("#btn_" + idElimina).trigger("click");
+	$('#myModal').modal('show');
 	
 	$('#moverEliminar').attr('idElimina',idElimina);
 	$('#eliminarTodo').attr('idElimina',idElimina);
@@ -433,6 +435,7 @@ function eliminarTodo(idElimina) {
 }
 	
 function elimina(idElimina){
+	
 	 /*Si pasa los filtros, guarda :)*/
 	jQuery.post("./modulos/estructura/dk-logica.php", {
 		accion: "tieneContenido",

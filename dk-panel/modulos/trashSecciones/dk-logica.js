@@ -134,8 +134,8 @@
 					$("#seccion option[value="+ datos[0]['seccion'] +"]").attr("selected",true);
 					$("#tipo option[value="+ datos[0]['tipo'] +"]").attr("selected",true);
 										
-					$("#listaRegistros").fadeOut(500,function () {
-						$("#camposFormulario").fadeIn(500);
+					$("#listaRegistros").fadeOut('fast',function () {
+						$("#camposFormulario").fadeIn('fast');
 					});
 					
 					//si el tipo es personalizado desbloqueo botón
@@ -185,9 +185,9 @@
 						}							
 						mensaje("Registro guardado correctamente.","success","check", 5);
 						
-						$("#camposFormulario").fadeOut(500,function () {
+						$("#camposFormulario").fadeOut('fast',function () {
 							$('#tablaRegistros').dataTable()._fnAjaxUpdate();
-							$("#listaRegistros").fadeIn(500);
+							$("#listaRegistros").fadeIn('fast');
 						});
 						
 						//cambian las secciones, actualizo el menú

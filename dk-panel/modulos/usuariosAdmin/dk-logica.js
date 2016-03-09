@@ -6,8 +6,9 @@
 			
 		$("#botonNuevo").click(function(e) {
 			limpiaForm();       
-			$("#listaRegistros").fadeOut(500);
-			$("#camposFormulario").fadeIn(3000);
+			$("#listaRegistros").fadeOut('fast', function () {
+				$("#camposFormulario").fadeIn('fast');
+			});	
 		});		
 		actualizaListaRegistros();
 		
@@ -111,9 +112,9 @@
 					$("#menuPermisoInmoZonas").prop("checked" , parseInt(datos[0]['menuInmoZonas']));	
 					
 					
-					$("#listaRegistros").fadeOut(500);
-					$("#camposFormulario").fadeIn(500);
-					
+					$("#listaRegistros").fadeOut('fast', function () {
+						$("#camposFormulario").fadeIn('fast');
+					});
 				}else{
 					mensaje("Ocurrió algún problema al cargar el registro. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
 				}

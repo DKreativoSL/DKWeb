@@ -6,8 +6,8 @@
 			
 		$("#botonNuevo").click(function(e) {
 			preparaFormulario();       
-			$("#listaArticulos").fadeOut(500);
-			$("#camposFormulario").fadeIn(3000);
+			$("#listaArticulos").fadeOut('fast');
+			$("#camposFormulario").fadeIn('fast');
 		});	
 		
 		actualizaListaArticulos();
@@ -121,8 +121,8 @@
 						  $("#"+campo).val(datosArticulo[campo]);
 					}
 					
-					$("#listaArticulos").fadeOut(500);
-					$("#camposFormulario").fadeIn(500);
+					$("#listaArticulos").fadeOut('fast');
+					$("#camposFormulario").fadeIn('fast');
 					
 				}else{
 					mensaje("Ocurrió algún problema al cargar el registro. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);

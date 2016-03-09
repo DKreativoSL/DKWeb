@@ -212,8 +212,8 @@ tinymce.init({
 					//selecciono la seccion					
 					$("#seccion option[value="+ datosArticulo[0]['idSeccion'] +"]").attr("selected",true);
 					
-					$("#listaRegistros").fadeOut(500, function () {
-						$("#camposFormulario").fadeIn(500);	
+					$("#listaRegistros").fadeOut('fast', function () {
+						$("#camposFormulario").fadeIn('fast');	
 					});
 				}else{
 					mensaje("Ocurrió algún problema al cargar el registro. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
@@ -252,9 +252,9 @@ tinymce.init({
 					}else{
 						mensaje("Guardado correctamente","success","check", 5);
 						
-						$("#camposFormulario").fadeOut(500, function () {
+						$("#camposFormulario").fadeOut('fast', function () {
 							$('#tablaRegistros').dataTable()._fnAjaxUpdate();
-							$("#listaRegistros").fadeIn(500); 	
+							$("#listaRegistros").fadeIn('fast'); 	
 						});
 					}
 					

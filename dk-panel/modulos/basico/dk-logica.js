@@ -7,8 +7,9 @@ $(document).ready(function() {
 		
 	$("#botonNuevo").click(function(e) {
 		limpiaForm();       
-		$("#listaArticulos").fadeOut(500);
-		$("#camposFormulario").fadeIn(3000);
+		$("#listaArticulos").fadeOut('fast', function () {
+			$("#camposFormulario").fadeIn('fast');
+		});
 		
 		jQuery.post("./modulos/basico/dk-logica.php", {
 			accion: "obtenerCamposSeccion",
@@ -253,8 +254,8 @@ $(document).ready(function() {
 					//selecciono la seccion					
 					$("#seccion option[value="+ datosArticulo[0]['idSeccion'] +"]").attr("selected",true);
 					
-					$("#listaArticulos").fadeOut(500,function () {
-						$("#camposFormulario").fadeIn(500);
+					$("#listaArticulos").fadeOut('fast',function () {
+						$("#camposFormulario").fadeIn('fast');
 					});
 				}else{
 					mensaje("Ocurrió algún problema al cargar el registro. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
@@ -302,9 +303,9 @@ $(document).ready(function() {
 						}
 						mensaje("Guardado correctamente","success","check", 5);
 						
-						$("#camposFormulario").fadeOut(500,function () {
+						$("#camposFormulario").fadeOut('fast',function () {
 							$('#tablaRegistros').dataTable()._fnAjaxUpdate();
-							$("#listaArticulos").fadeIn(500);
+							$("#listaArticulos").fadeIn('fast');
 						});
 					}
 					

@@ -57,9 +57,10 @@
     		<input type="text" id="fechaCreacion" class="form-control" placeholder="01/01/2016">
   		</fieldset>
   		<fieldset class="form-group">
-    		<label for="exampleSelect1">Usuario</label>
-    		<select class="form-control" id="listaUsuarios"><!-- --></select>
+    		<label for="exampleSelect1">Usuario creador</label>
+    		<select class="form-control" disabled="disabled" id="listaUsuarios"><!-- --></select>
   		</fieldset>
+  		<!--
 		<fieldset class="form-group">
   			<div class="checkbox">
     		<label>
@@ -91,6 +92,7 @@
             	<option value="vps105964.ovh.net">vps105964.ovh.net</option>                                                        
           	</select>
   		</fieldset>
+  		-->
   		<button type="button" id="botonGuarda" class="btn btn-primary">Guardar Website</button>
 	</form>
 	

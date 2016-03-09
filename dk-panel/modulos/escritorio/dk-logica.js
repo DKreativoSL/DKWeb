@@ -66,8 +66,8 @@ function modifica(idArticulo){
 				//selecciono la seccion					
 				$("#seccion option[value="+ datosArticulo[0]['idSeccion'] +"]").attr("selected",true);
 				
-				$("#listaArticulos").fadeOut(500,function () {
-					$("#camposFormulario").fadeIn(500);
+				$("#listaArticulos").fadeOut('fast',function () {
+					$("#camposFormulario").fadeIn('fast');
 				});
 			}else{
 				mensaje("Ocurrió algún problema al cargar el registro. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
@@ -104,12 +104,12 @@ function guarda(){
 				} else{
 					mensaje("Guardado correctamente","success","check", 5);
 					
-					$("#camposFormulario").fadeOut(500,function () {
+					$("#camposFormulario").fadeOut('fast',function () {
 						$('#tablaRegistrosProgramadas').dataTable()._fnAjaxUpdate();
 						$('#tablaRegistrosBorrador').dataTable()._fnAjaxUpdate();
 						$('#tablaRegistrosPublicadas').dataTable()._fnAjaxUpdate();
 						$('#tablaRegistrosPapelera').dataTable()._fnAjaxUpdate();
-						$("#listaArticulos").fadeIn(500);
+						$("#listaArticulos").fadeIn('fast');
 					});
 				}
 				

@@ -22,8 +22,9 @@
 						
 		$("#botonNuevo").click(function(e) {
 			limpiaForm();       
-			$("#listaRegistros").fadeOut(500);
-			$("#camposFormulario").fadeIn(3000);
+			$("#listaRegistros").fadeOut('fast', function () {
+				$("#camposFormulario").fadeIn('fast');
+			});
 		});		
 		actualizaListaRegistros();
 		
@@ -195,8 +196,8 @@
 						$("#ftp_servidor").attr("disabled","disabled");
 						}
 										
-					$("#listaRegistros").fadeOut(500, function () {
-						$("#camposFormulario").fadeIn(500);
+					$("#listaRegistros").fadeOut('fast', function () {
+						$("#camposFormulario").fadeIn('fast');
 					});
 					
 				}else{
@@ -255,8 +256,8 @@
 						mensaje("Registro guardado correctamente.","success","check", 5);
 						$("#id").val(data);
 						
-						$("#camposFormulario").fadeOut(500, function () {
-							$("#listaRegistros").fadeIn(500);
+						$("#camposFormulario").fadeOut('fast', function () {
+							$("#listaRegistros").fadeIn('fast');
 						});
 						
 					}else{
