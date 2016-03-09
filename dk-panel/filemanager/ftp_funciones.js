@@ -109,7 +109,12 @@ var dominio = "";
 		var url = document.location.href;
 		if (directorio == "/") directorio = "";		
 		var seleccionaFichero = $("#"+ficheroSeleccionado).text();
-		var nUrl  = "http://" + dominio + "/" + ftp_rutabase + directorio + "/" +seleccionaFichero;
+		
+		if (dominio.indexOf("http://") == -1) {
+			var nUrl  = "http://" + dominio + "/" + ftp_rutabase + directorio + "/" +seleccionaFichero;	
+		} else {
+			var nUrl  = dominio + "/" + ftp_rutabase + directorio + "/" +seleccionaFichero;
+		}
 		
 		window.opener.$("[id=urlFile]").val(nUrl);
 		window.opener.$("[id=descriptionFile]").val(seleccionaFichero);
