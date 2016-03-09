@@ -67,7 +67,7 @@ $(document).ready(function() {
 			$(this).val('');	
 		});
 		//Limpiamos todos los textarea
-		$('#descripcion').html('');
+		$('#descripcion').val('');
 		
 		//Limpiamos todos los checkbox
 		$('#camposFormulario input[type=checkbox]').each(function () {
@@ -143,8 +143,9 @@ $(document).ready(function() {
 						mensaje("Ocurrió algún problema en el guardado. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.","danger","warning", 0);
 					}else{
 						if (accion == 'inserta') {
-							$("#id").val(data);	
+							//$("#id").val(data);	
 						}
+						limpiaForm();
 						mensaje("Guardado correctamente","success","check", 5);
 						
 						$("#camposFormulario").fadeOut(500, function () {

@@ -81,6 +81,8 @@
 				{
 					var datos = JSON.parse(data);
 					
+					console.log(datos);
+					
 					/*Cargo en los campos*/
 					$("#id").val(datos[0]['id']);
 					$("#email").val(datos[0]['email']);

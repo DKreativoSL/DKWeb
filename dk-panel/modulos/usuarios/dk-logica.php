@@ -53,6 +53,8 @@
 			//cargamos en un array multidimensional todos los datos de la consulta
 			//$i=0;
 			
+			echo '<pre>'.print_r($row,true).'</pre>';
+			
 			if($row) {
 				$colActual = 1;
 				$col = array(

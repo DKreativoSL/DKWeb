@@ -63,7 +63,7 @@
 				FROM secciones 
 				WHERE idSitioWeb = "'.$_SESSION['sitioWeb'].'"
 				AND estado = 1
-				ORDER BY seccion ASC, id';
+				ORDER BY seccion ASC, orden ASC, id';
 				
 				$registro = mysqli_query($conexion, $consulta);
 							

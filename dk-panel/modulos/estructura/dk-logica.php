@@ -21,7 +21,8 @@
 			FROM secciones 
 			WHERE id <> ".$idRegistro." 
 			AND idsitioweb = ".$idSitioWeb."
-			AND estado = 1;";
+			AND estado = 1
+			ORDER BY orden ASC;";
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$html = '';
@@ -117,7 +118,8 @@
 			$consulta = "
 			SELECT * FROM secciones 
 			WHERE idSitioWeb = ".$idSitioWeb."
-			AND estado = 1;";
+			AND estado = 1
+			ORDER BY orden ASC;";
 			$registro = mysqli_query($conexion, $consulta);
 
 			$tabla = array(); //creamos un array

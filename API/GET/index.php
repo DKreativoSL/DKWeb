@@ -4,6 +4,7 @@
 	$token = $_GET['token'];
 	$dominio = $_SERVER['HTTP_HOST'];			
 	
+	
 	//if ($dominio = "localhost" or $dominio = "dkweb.es") $dominio = "porfinsabado.com";
 	
 /*	$consulta = '

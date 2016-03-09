@@ -3,7 +3,19 @@
 function formatDate($fecha) {
 	
 	if ($fecha != "" && $fecha != "0000-00-00" && $fecha != "0000-00-00 00:00:00") {
-		$newDate = date("Y-m-d", strtotime($fecha));
+		$newDate = date("d-m-Y", strtotime($fecha));
+	} else{
+		$newDate = "0000-00-00";
+	}
+	
+	return $newDate;
+	
+}
+
+function formatDateWithTime($fecha) {
+	
+	if ($fecha != "" && $fecha != "0000-00-00" && $fecha != "0000-00-00 00:00:00") {
+		$newDate = date("d-m-Y h:i:s", strtotime($fecha));
 	} else{
 		$newDate = "0000-00-00";
 	}
@@ -35,6 +47,22 @@ function getCSS($conexion,$idSitioWeb) {
 	//Obtengo el registro
 	$row = mysqli_fetch_assoc($registro);
 	return $row;
+}
+
+function getSeccionesWeb($conexion,$idSitioWeb) {
+	$consulta = "
+	SELECT id
+	FROM secciones
+	WHERE idSitioWeb = ".$idSitioWeb;
+	$registro = mysqli_query($conexion, $consulta);
+	$WHERE_IN = "";
+	
+	while($row = mysqli_fetch_array($registro, MYSQL_ASSOC))
+	{
+		if (strlen($WHERE_IN) > 0) $WHERE_IN .= ',';
+		$WHERE_IN .= $row['id'];
+	}
+	return $WHERE_IN;
 }
 
 function getColaboradores($conexion,$idSitioWeb) {

@@ -23,7 +23,8 @@
 			$idCliente = mysqli_real_escape_string($conexion, $_POST['id']);			
 			$consulta = '
 			SELECT * FROM inmo_clientes
-			WHERE id = '.$idCliente.';';
+			WHERE idSitioWeb = ' . $idSitioWeb . '
+			AND id = '.$idCliente.';';
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array(); //creamos un array
@@ -75,7 +76,7 @@
 			usuarios.nombre as usuarioname 
 			FROM inmo_clientes AS clientes
 			LEFT JOIN usuarios ON clientes.usuario = usuarios.id
-			WHERE 1 ";
+			WHERE idSitioWeb = " . $idSitioWeb;
 			
 			//Campos de busqueda
 			//$busca 		= $_POST['filtro_cliente_busqueda'];
@@ -333,8 +334,8 @@
 			}
 			
 			$consulta = "
-			INSERT INTO inmo_clientes (usuario, clave, nombre, direccion, poblacion, provincia, cpostal, tlf1, tlf2, email, fax, fuente, nif, fechaalta, comentarios, tipoc) 
-			VALUES (".$musuario.", '','".$mnombre."', '".$mdireccion."', '".$mpoblacion."', '".$mprovincia."', '".$mcpostal."', '".$mtlf1."', '".$mtlf2."', '".$memail."', '".$mfax."', '".$mfuente."', '".$mnif."', '".$mfecha."', '".$mcomentarios."', '".$mtipoc."')";
+			INSERT INTO inmo_clientes (idSitioWeb, usuario, clave, nombre, direccion, poblacion, provincia, cpostal, tlf1, tlf2, email, fax, fuente, nif, fechaalta, comentarios, tipoc) 
+			VALUES (".$idSitioWeb.", ".$musuario.", '','".$mnombre."', '".$mdireccion."', '".$mpoblacion."', '".$mprovincia."', '".$mcpostal."', '".$mtlf1."', '".$mtlf2."', '".$memail."', '".$mfax."', '".$mfuente."', '".$mnif."', '".$mfecha."', '".$mcomentarios."', '".$mtipoc."')";
 
 			$retorno = mysqli_query($conexion, $consulta);
 			

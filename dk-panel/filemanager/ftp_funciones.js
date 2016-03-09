@@ -135,6 +135,7 @@ var dominio = "";
 		}
 	
 	function muestraMenuContextual(idFichero){
+			console.log(idFichero);
 		 	ficheroSeleccionado = idFichero;
 			var posx = $("#"+idFichero).position().left;
 			var posy = $("#"+idFichero).position().top;

@@ -72,20 +72,24 @@
 			//$idSeccion = mysqli_real_escape_string($conexion, $_POST['seccion']);
 			
 			$consulta = "
-			SELECT DISTINCT id, titulo, idUsuario, estado, fechaPublicacion
-			FROM articulos
-			WHERE estado = 3";
+			SELECT DISTINCT a.id, a.titulo, a.idUsuario, a.estado, a.fechaPublicacion
+			FROM articulos AS a
+			LEFT JOIN secciones AS s ON (a.idSeccion = s.id)
+			WHERE a.estado = 3";
+			
+			$where_in = getSeccionesWeb($conexion,$idSitioWeb);
+			$consulta .= ' AND s.id IN ('.$where_in.')';			
 
 			if ($grupo == "administrador") {
 				$where_in = getColaboradores($conexion,$idSitioWeb);
-				$consulta .= ' AND idUsuario IN ('.$where_in.')';
+				$consulta .= ' AND a.idUsuario IN ('.$where_in.')';
 			}
 			if ($grupo == "colaborador") {
-				$consulta .= ' AND idUsuario = '.$idUsuario;
+				$consulta .= ' AND a.idUsuario = '.$idUsuario;
 			}
 			if ($grupo == "editor") {
 				$where_in = getColaboradores($conexion,$idSitioWeb);
-				$consulta .= ' AND idUsuario IN ('.$where_in.')';
+				$consulta .= ' AND a.idUsuario IN ('.$where_in.')';
 			}
 			
 			$registro = mysqli_query($conexion, $consulta);

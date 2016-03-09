@@ -25,7 +25,7 @@
         </thead>
         <tbody>
         </tbody>  
-	</table>
+	</table>	
 </div>
 
 <div id="camposFormulario" style="display:none">
@@ -83,7 +83,7 @@
           	<tr id="campo_CampoExtra">
             	<td colspan="3" scope="col">
             		Campo extra<br />
-              		<input id="campoExtra" type="text" value="" size="100" maxlength="100" class="form-control" />
+              		<input id="campoExtra" type="text" value="" size="100" maxlength="500" class="form-control" />
           		</td>
           	</tr>
           	<tr>

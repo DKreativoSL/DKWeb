@@ -1,3 +1,5 @@
+	var puedoDesactivarPopupDuplicarWeb = false;
+	
 	$(document).ready(function() {
 		
 		$('#ftp_contrasena').keyup(function() {
@@ -25,7 +27,34 @@
 		});		
 		actualizaListaRegistros();
 		
+	    $('#popupDuplicandoWeb').on('hide.bs.modal', function (e) {
+	    	if (puedoDesactivarPopupDuplicarWeb == false) {
+	    		e.preventDefault();	
+	    	}
+	    });
+		
 	});
+	
+	
+	
+	function duplicarWeb(idWebsite) {
+		$('#popupDuplicandoWeb').modal('show');
+		puedoDesactivarPopupDuplicarWeb = false;
+		jQuery.post("./modulos/sitiosWeb/dk-logica.php", {
+			accion: "duplicarWebsite",
+			idWebsite: idWebsite
+			}, function(data, textStatus) {
+				if (data == "OK") {
+					puedoDesactivarPopupDuplicarWeb = true;
+					$('#popupDuplicandoWeb').modal('hide');
+					$('#tablaRegistros').dataTable()._fnAjaxUpdate();
+				} else {
+					alert("Se ha producido un error al tratar de duplicar la web; Error: " + data);
+					console.log(data);
+				}
+			});
+	}
+	
 	
 	function validaPass(pswd){
 		

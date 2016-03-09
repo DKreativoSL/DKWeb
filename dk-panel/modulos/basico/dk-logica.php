@@ -169,8 +169,10 @@
 			}
 			if ($grupo == "editor") {
 				$where_in = getColaboradores($conexion,$idSitioWeb);
-				$consulta .= ' AND articulos.idUsuario IN ('.$where_in.')';
+				$consulta .= ' AND articulos.idUsuario IN ('.$where_in.') ';
 			}
+			
+			$consulta .= ' ORDER BY articulos.orden ASC';
 			
 			$registro = mysqli_query($conexion, $consulta);
 

@@ -273,7 +273,8 @@ function getAllSectionsV2(&$dataReturn,$parent,$idSitioWeb,$conexion) {
 	FROM secciones
 	WHERE seccion = '.$parent.'
 	AND idsitioweb = '.$idSitioWeb.'
-	AND estado = 1';
+	AND estado = 1
+	ORDER BY orden ASC';
 	
 	$result = mysqli_query($conexion, $sql);
 	$infoSeccion = array();

@@ -7,6 +7,24 @@ session_start();
 <link href="./../assets/global/plugins/jquery-chosen/chosen.css" rel="stylesheet" type="text/css"/>
 <link href="./../assets/global/plugins/jquery-chosen/chosen-bootstrap.css" rel="stylesheet" type="text/css"/>
 
+<link href="./../assets/admin/layout2/css/bootstrap-image-gallery.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+
+
+<style>
+	.input-small {
+		width: 300px !important;
+	}
+	.imagenGaleria:first-of-type {
+		margin-left:0px;
+	}
+	.imagenGaleria {
+		cursor:pointer !important;
+		margin-left:10px;
+		margin-top:10px;
+	}
+</style>
+
 <div id="cambiarUsuario" class="modal fade" role="dialog" style="display:none; z-index:1000">
 	<div class="modal-dialog">
 		<!-- Modal content-->
@@ -285,17 +303,21 @@ session_start();
                     </div>
                 </div>
 	            <div class="row">
-	                <div class="col-lg-4">
+	                <div class="col-lg-3">
                         Portal<br />
                         <input name="inmueble_txtPortal" class="form-control" type="text" id="inmueble_txtPortal" size="50" maxlength="80" />
                     </div>
-	                <div class="col-lg-4">
+	                <div class="col-lg-3">
                         Planta <br />
                         <input name="inmueble_txtPlanta" class="form-control" type="text" id="inmueble_txtPlanta" size="25" maxlength="15" />
                     </div>
-	                <div class="col-lg-4">
+	                <div class="col-lg-3">
     	                Letra <br />
                         <input name="inmueble_txtLetra" class="form-control" type="text" id="inmueble_txtLetra" size="25" maxlength="15" />
+                    </div>
+	                <div class="col-lg-3">
+    	                Extra <br />
+                        <input name="inmueble_txtDirExtra" class="form-control" type="text" id="inmueble_txtDirExtra" size="25" maxlength="15" />
                     </div>
                 </div>
 	            <div class="row">
@@ -590,6 +612,19 @@ session_start();
            	</div> 
 		</div> <!-- panel documento & imagenes -->
 		
+	<div id="modalImageGalley" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+    		<div class="modal-content">
+      			<div class="modal-body">
+        			<img src="" class="img-responsive" id="imageModal">
+      			</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      			</div>
+			</div>
+  		</div>
+	</div>
+		
         
         <div class="row">
             <div class="col-lg-12">                
@@ -607,17 +642,8 @@ session_start();
 <script type="text/javascript" src="../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
 <script type="text/javascript" src="../assets/admin/pages/scripts/table-editable.js"></script>
-<script src="../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js" type="text/javascript"></script>
-<script type="text/javascript">
-	$("#inmueble_txtFechaalta").datepicker({
-		format: 'dd-mm-yyyy',
-		todayBtn: true,
-		language: 'es',
-		todayHighlight: true,
-		weekStart: 1
-	});
-</script>
+<script type="text/javascript" src="../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="../assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js"></script>
 
 <script type="text/javascript">
 	<?php

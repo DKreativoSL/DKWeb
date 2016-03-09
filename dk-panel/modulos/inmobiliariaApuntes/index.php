@@ -9,6 +9,11 @@
 <link href="./../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
 <link href="./../assets/global/plugins/jquery-chosen/chosen.css" rel="stylesheet" type="text/css"/>
 <link href="./../assets/global/plugins/jquery-chosen/chosen-bootstrap.css" rel="stylesheet" type="text/css"/>
+<style>
+	.input-small {
+		width: 300px !important;
+	}
+</style>
 
 <div id="popupApuntes" class="modal fade" role="dialog" style="display:none">
 	<div class="modal-dialog modal-lg">
@@ -175,7 +180,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         Tipo apunte<br />
-                        <select name="apuntes_cbApunte" class="form-control" id="apuntes_cbApunte" onchange="MuestraFechaAviso(this)">
+                        <select name="apuntes_cbApunte" class="chosen-select form-control" id="apuntes_cbApunte">
                             <option value="Llamada Entrante">Llamada Entrante</option>                
                             <option value="Llamada Saliente">Llamada Saliente</option>
                             <option value="Correo Entrante">Correo Entrante</option>
@@ -193,6 +198,19 @@
                         <input name="apuntes_txtUsuaId" type="hidden" id="apuntes_txtUsuaId" size="50" maxlength="80" />
                         <input name="apuntes_txtUsuaNombre" readonly="readonly" class="form-control" type="text" id="apuntes_txtUsuaNombre" size="50" maxlength="80" />
                        -->
+                    </div>
+                </div>
+                <div class="row" id="camposEspecificosCita" style="display:none">
+                    <div class="col-lg-6">
+                        Fecha y Hora
+                        <input type="text" class="form-control" id="apuntes_fechaCita">
+                    </div>
+                    <div class="col-lg-6">
+                        Estado
+						<select id="apuntes_estadoCita" data-placeholder="Selecciona un estado..." class="chosen-select form-control">
+							<option value="Vigente">Vigente</option>
+							<option value="Anulada">Anulada</option>
+						</select>
                     </div>
                 </div>
                 <div class="row">

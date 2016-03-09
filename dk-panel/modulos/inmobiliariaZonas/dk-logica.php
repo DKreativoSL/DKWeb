@@ -18,7 +18,8 @@
 						
 			$consulta = '
 			SELECT * 
-			FROM inmo_zonas;';
+			FROM inmo_zonas
+			WHERE idSitioWeb = '.$idSitioWeb.';';
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array();
@@ -39,7 +40,8 @@
 		case 'leerZona':
 			$idZona = mysqli_real_escape_string($conexion, $_POST['id']);			
 			$consulta = '
-			SELECT * FROM inmo_zonas
+			SELECT * 
+			FROM inmo_zonas
 			WHERE id = '.$idZona.';';
 			
 			$registro = mysqli_query($conexion, $consulta);
@@ -61,7 +63,7 @@
 			SELECT z.*, zz.nombre as subzona_nombre
 			FROM inmo_zonas AS z
 			LEFT JOIN inmo_zonas AS zz ON z.id = zz.subzona
-			WHERE 1 = 1";
+			WHERE z.idSitioWeb = ".$idSitioWeb;
 			
 			
 			if( !empty($requestData['search']['value']) ) {
@@ -175,10 +177,8 @@
 			$subzona = mysqli_real_escape_string($conexion,$_POST['subzona']);		
 			
 			$consulta = "
-			INSERT INTO inmo_zonas (nombre, descripcion, subzona, estado) 
-			VALUES ('".$nombre."', '".$descripcion."', '".$subzona."', 1)";
-			
-			echo $consulta;
+			INSERT INTO inmo_zonas (idSitioWeb, nombre, descripcion, subzona, estado) 
+			VALUES (".$idSitioWeb.",'".$nombre."', '".$descripcion."', '".$subzona."', 1)";
 
 			$retorno = mysqli_query($conexion, $consulta);
 			

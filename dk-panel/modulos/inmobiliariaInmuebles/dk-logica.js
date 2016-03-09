@@ -2,6 +2,77 @@ var getTablaRegistrosInmuebles;
 var getListaInmueblesCliente;
 
 $(document).ready(function() {
+	//Restricciones listado
+	AceptaSoloNumeros('preciodesde');
+	AceptaSoloNumeros('preciohasta');
+	
+	AceptaSoloNumeros('metrosdesde');
+	AceptaSoloNumeros('metroshasta');
+	
+	AceptaSoloNumeros('habitadesde');
+	AceptaSoloNumeros('habitahasta');
+	
+	AceptaSoloNumeros('banosdesde');
+	AceptaSoloNumeros('banoshasta');
+	
+	AceptaSoloNumerosYGuiones('desde');
+	AceptaSoloNumerosYGuiones('hasta');
+	
+	AceptaSoloNumerosYGuiones('desdebaja');
+	AceptaSoloNumerosYGuiones('hastabaja');
+	
+	AceptaSoloNumeros('preciodesde');
+	AceptaSoloNumeros('preciodesde');
+	
+	AceptaSoloNumeros('planta');
+	
+	$("#desde, #hasta, #desdebaja, #hastabaja").datepicker({
+		format: 'dd-mm-yyyy',
+		todayBtn: false,
+		language: 'es',
+		todayHighlight: true,
+		weekStart: 1
+	});
+	
+	
+	//Restricciones Formulario
+	AceptaSoloTextoYGuion('inmueble_txtDireccion');
+	
+	AceptaSoloTexto('inmueble_txtLetra');
+	AceptaSoloNumeros('inmueble_txtPlanta');
+	
+	AceptaSoloTextoYGuion('inmueble_txtPoblacion');
+	AceptaSoloTextoYGuion('inmueble_txtProvincia');
+		
+		
+	AceptaSoloNumeros('inmueble_txtSuperutil');
+	AceptaSoloNumeros('inmueble_txtMetroster');
+	AceptaSoloNumeros('inmueble_txtMetroscuadra');
+	
+	AceptaSoloNumeros('inmueble_txtHabitaciones');
+	AceptaSoloNumeros('inmueble_txtBanos');
+	AceptaSoloNumeros('inmueble_txtAseos');
+	AceptaSoloNumeros('inmueble_txtSalon');
+	AceptaSoloNumeros('inmueble_txtCocina');	
+	AceptaSoloNumeros('inmueble_txtArmaempo');
+	
+	
+	AceptaSoloNumeros('inmueble_txtPlantasedif');
+	AceptaSoloNumeros('inmueble_txtTerraza');
+	
+	AceptaSoloNumeros('inmueble_txtAntiguedad');
+	
+	
+	AceptaSoloNumerosYComa('inmueble_txtPreciopropie');
+	AceptaSoloNumerosYComa('inmueble_txtPcomision');
+	AceptaSoloNumerosYComa('inmueble_txtComision');
+	AceptaSoloNumerosYComa('inmueble_txtHonorarios');
+	
+	AceptaSoloNumerosYComa('inmueble_txtPrecio');
+	AceptaSoloNumerosYComa('inmueble_txtPrecioalquiler');
+	AceptaSoloNumerosYComa('inmueble_txtComunidad');
+	AceptaSoloNumerosYComa('inmueble_txtPreciogar');
+		
 	$('#camposFormularioInmuebles').hide();
 	
 	$('#filtrarInmuebles').click(function () {
@@ -75,7 +146,22 @@ $(document).ready(function() {
 	}
 	//Cargamos el datatable con los propietarios
 	inicializaPropietarioPopup();
+	
+	
+	$("#inmueble_txtFechaalta").datepicker({
+		format: 'dd-mm-yyyy',
+		todayBtn: false,
+		language: 'es',
+		todayHighlight: true,
+		weekStart: 1
+	});
 });
+
+function mostrarImagenGrande(imagen) {
+	var href = $(imagen).attr('src');
+	$('#imageModal').attr('src',href);
+	$('#modalImageGalley').modal('show');
+}
 
 function obtenerDocumentoInmueble(idInmueble) {
 	jQuery.post("./modulos/inmobiliariaInmuebles/dk-logica.php", {
@@ -647,7 +733,17 @@ function MuestraCostes() {
 }
 
 function actualizaListaInmueblesCliente(idCliente) {
+	
 	var tablaRegistrosInmueblesCliente;
+	/*
+	jQuery.post("./modulos/inmobiliariaInmuebles/dk-logica.php", {
+		'accion': "listaInmueblesCliente",
+		'idCliente': idCliente
+	}, function(data, textStatus){
+		console.log('Resultado: ' + data);
+	});
+	
+	*/
 	getListaInmueblesCliente = function () {
 		tablaRegistrosInmueblesCliente = $('#tablaRegistrosInmuebles').dataTable({
 		"processing": true,

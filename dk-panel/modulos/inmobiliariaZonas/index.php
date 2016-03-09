@@ -8,6 +8,11 @@
 
 <link rel="stylesheet" type="text/css" href="./../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
 <link href="./../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
+<style>
+	.input-small {
+		width: 300px !important;
+	}
+</style>
 
 <div id="listaZonas">
 	<table id="tablaRegistros" class="table table-hover" cellspacing="0" align="center" role="grid">

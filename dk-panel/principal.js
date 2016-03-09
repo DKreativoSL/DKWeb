@@ -110,7 +110,7 @@ $(document).ready(function(){
 		jQuery.post("principal.php", {
 			accion: 'traeSecciones'
 			}, function(data, textStatus){
-				//console.log(data);
+				console.log(data);
 				var seccionesWeb = JSON.parse(data);
 				if (data == ""){
 					alert("Ha ocurrido un error con la carga de las secciones, pongase en contacto con Dkreativo (desarrollo@dkreativo.es)");
@@ -121,8 +121,9 @@ $(document).ready(function(){
 							if (seccionesWeb[x]['seccionPadre'] == 0)
 							{
 								$("#seccionesWeb").append('<li><a href="#" onclick="cargaSeccion('+seccionesWeb[x]['id']+','+seccionesWeb[x]['tipo']+',\''+seccionesWeb[x]['nombre']+'\')" ><i class="icon-pencil"></i> '+seccionesWeb[x]['nombre']+'<span id="submenu'+seccionesWeb[x]['id']+'"></span></a><ul id="menu'+seccionesWeb[x]['id']+'" class="sub-menu"></ul></li>');
-							}else{
+							} else {
 								$("#menu"+seccionesWeb[x]['seccionPadre']).append('<li><a href="#" onclick="cargaSeccion('+seccionesWeb[x]['id']+','+seccionesWeb[x]['tipo']+',\''+seccionesWeb[x]['nombre']+'\')" ><i class="icon-pencil"></i> '+seccionesWeb[x]['nombre']+'<span id="submenu'+seccionesWeb[x]['id']+'"></span></a><ul id="menu'+seccionesWeb[x]['id']+'" class="sub-menu"></ul></li>');
+								
 								//añado la clase para submenús
 								$("#submenu"+seccionesWeb[x]['seccionPadre']).addClass("arrow");
 							}
@@ -236,3 +237,71 @@ $(document).ready(function(){
 		};
 
 		
+
+
+
+
+function AceptaSoloTextoYGuion(nombreControl) {
+    
+    $('#' + nombreControl).unbind('keypress');
+    $('#' + nombreControl).bind('keypress', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        
+        if((code < 97 || code > 122) && (code < 65 || code > 90) && (code != 45)) return false; 
+        else return true;
+    });
+}
+
+function AceptaSoloTexto(nombreControl) {
+    
+    $('#' + nombreControl).unbind('keypress');
+    $('#' + nombreControl).bind('keypress', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        
+        if((code < 97 || code > 122) && (code < 65 || code > 90)) return false; 
+        else return true;
+    });
+}
+
+function AceptaSoloNumeros(nombreControl) {
+    
+    $('#' + nombreControl).unbind('keypress');
+    $('#' + nombreControl).bind('keypress', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (!((code > 47 && code < 58))) {  //Solo números
+            return false;
+        } else {
+            return true;
+        }
+    });
+}
+
+function AceptaSoloNumerosYGuiones(nombreControl) {
+    
+    $('#' + nombreControl).unbind('keypress');
+    $('#' + nombreControl).bind('keypress', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 45) {
+        	return true; //Aceptamos el guion
+        }
+        if (!(code > 47 && code < 58)) {  //Solo números
+            return false;
+        } else {
+            return true;
+        }
+    });
+}
+
+function AceptaSoloNumerosYComa(nombreControl) {
+    
+    $('#' + nombreControl).unbind('keypress');
+    $('#' + nombreControl).bind('keypress', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (!((code > 47 && code < 58) || code == 44 || code == 46 || code == 8 || code == 9)) {  //Solo números y coma y punto
+            return false;
+        } else {
+            return true;
+        }
+    });
+}
+

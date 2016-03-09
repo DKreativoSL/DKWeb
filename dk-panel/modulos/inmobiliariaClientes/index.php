@@ -6,6 +6,11 @@ session_start();
 <link href="./../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
 <link href="./../assets/global/plugins/jquery-chosen/chosen.css" rel="stylesheet" type="text/css"/>
 <link href="./../assets/global/plugins/jquery-chosen/chosen-bootstrap.css" rel="stylesheet" type="text/css"/>
+<style>
+	.input-small {
+		width: 300px !important;
+	}
+</style>
 
 <div id="listaClientes">
 	<div id="filtrosClientes">

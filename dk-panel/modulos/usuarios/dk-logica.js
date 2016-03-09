@@ -150,7 +150,8 @@
 		jQuery.post("./modulos/usuarios/dk-logica.php", {
 			accion: "cargaPermisos",
 			id: idRegistro
-			}, function(data, textStatus){		
+			}, function(data, textStatus){
+				console.log(data);
 				if (data != "KO")				
 				{
 					var permisos = JSON.parse(data);

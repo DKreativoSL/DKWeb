@@ -16,7 +16,7 @@
 		case 'obtenerPropietario':
 			$idPropietario = mysqli_real_escape_string($conexion, $_POST['idPropietario']);
 						
-			$consulta = 'SELECT id, nombre FROM inmo_clientes';
+			$consulta = 'SELECT id, nombre FROM inmo_clientes WHERE idSitioWeb = ' . $idSitioWeb;
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array();
@@ -37,7 +37,8 @@
 			
 			$consulta = '
 			SELECT ref, inmueble 
-			FROM inmo_inmuebles';
+			FROM inmo_inmuebles
+			WHERE idSitioWeb = ' . $idSitioWeb;
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array();
@@ -56,7 +57,8 @@
 		case 'obtenerInmuebles':
 			$consulta = '
 			SELECT ref, inmueble, direccion, precioalquiler
-			FROM inmo_inmuebles';
+			FROM inmo_inmuebles
+			WHERE idSitioWeb = ' . $idSitioWeb;
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array();
@@ -72,7 +74,11 @@
 		case 'obtenerCliente':
 			$idCliente = mysqli_real_escape_string($conexion, $_POST['idCliente']);
 						
-			$consulta = 'SELECT id, nombre, tlf1 FROM inmo_clientes WHERE id = '.$idCliente.';';
+			$consulta = '
+			SELECT id, nombre, tlf1 
+			FROM inmo_clientes 
+			WHERE idSitioWeb = ' . $idSitioWeb . ' 
+			AND id = '.$idCliente.';';
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array();
@@ -101,7 +107,8 @@
 			LEFT JOIN inmo_inmuebles AS i ON v.inmueble = i.id
 			LEFT JOIN usuarios AS u ON v.usuario = u.id
 			LEFT JOIN inmo_zonas AS z ON i.zona = z.id
-			WHERE v.id = '.$idVisita.';';
+			WHERE v.idSitioWeb = ' . $idSitioWeb . ' 
+			AND v.id = '.$idVisita.';';
 
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array(); //creamos un array
@@ -120,7 +127,7 @@
 		case 'listaVisitasCliente':
 			$idCliente = mysqli_real_escape_string($conexion, $_POST['idCliente']);
 						
-			$consulta = "
+			$consulta = '
 			SELECT v.*, 
 			c.nombre as cliente_nombre,
 			i.ref as inmueble_ref,
@@ -129,7 +136,8 @@
 			LEFT JOIN inmo_clientes AS c ON v.cliente = c.id
 			LEFT JOIN inmo_inmuebles AS i ON v.inmueble = i.id
 			LEFT JOIN usuarios AS u ON v.usuario = u.id
-			WHERE v.cliente = ".$idCliente;
+			WHERE v.idSitioWeb = ' . $idSitioWeb . ' 
+			AND v.cliente = '.$idCliente;
 			
 			//echo $consulta;
 			
@@ -206,7 +214,7 @@
 			echo json_encode($resultado);
 		break;
 		case 'listaVisitas':
-			$consulta = "
+			$consulta = '
 			SELECT v.*, 
 			c.nombre as cliente_nombre,
 			i.ref as inmueble_ref,
@@ -215,7 +223,7 @@
 			LEFT JOIN inmo_clientes AS c ON v.cliente = c.id
 			LEFT JOIN inmo_inmuebles AS i ON v.inmueble = i.id
 			LEFT JOIN usuarios AS u ON v.usuario = u.id
-			WHERE 1 = 1";
+			WHERE v.idSitioWeb = ' . $idSitioWeb;
 			
 			//Campos de filtrado
 			//$busca 			= $_POST['filtro_apunte_busqueda'];
@@ -402,8 +410,7 @@
 			$idZona = mysqli_real_escape_string($conexion, $_POST['id']);
 			
 			$consulta = "
-			UPDATE inmo_visitas SET
-			estado = 3
+			UPDATE inmo_visitas SET estado = 3
 			WHERE id ='".$idZona."'";
 				
 			$retorno = mysqli_query($conexion, $consulta);
@@ -425,15 +432,25 @@
 		
 			//$datos = mysqli_real_escape_string($conexion,$_POST['datos']);
 			$comentarios = mysqli_real_escape_string($conexion,$_POST['apuntes_comentarios']);
+			$estadoCita = mysqli_real_escape_string($conexion,$_POST['apuntes_estadoCita']);
 			//$seguimiento = mysqli_real_escape_string($conexion,$_POST['chSeguimiento']);
 			$tipo = mysqli_real_escape_string($conexion,$_POST['apuntes_cbApunte']);					
 
+			$fechaCita = mysqli_real_escape_string($conexion,$_POST['apuntes_fechaCita']);
+			
+			$split_fechaCita = explode(" ",$fechaCita);
+			$split_fecha = explode("/",$split_fechaCita[1]);
+			
+			$nuevoFormatoFecha = $split_fecha[2] . "-" . $split_fecha[1] . "-" . $split_fecha[0] . " " . $split_fechaCita[0];
+			
 			$consulta = "
 			UPDATE inmo_visitas SET 
 			cliente='".$cliente."',  
 			usuario = '".$usuario."', 
 			inmueble = '".$inmueble."', 
-			comentarios='".$comentarios."',   
+			comentarios='".$comentarios."',
+			estadoCita='".$estadoCita."',
+			fechaaviso='".$nuevoFormatoFecha."',
 			tipo='".$tipo."' 
 			WHERE id='".$id."'";
 			
@@ -456,17 +473,27 @@
 			//$datos = mysqli_real_escape_string($conexion,$_POST['datos']);
 			$comentarios = mysqli_real_escape_string($conexion,$_POST['apuntes_comentarios']);
 			//$seguimiento = mysqli_real_escape_string($conexion,$_POST['chSeguimiento']);
-			$tipo = mysqli_real_escape_string($conexion,$_POST['apuntes_cbApunte']);					
+			$estadoCita = mysqli_real_escape_string($conexion,$_POST['apuntes_estadoCita']);
+			$tipo = mysqli_real_escape_string($conexion,$_POST['apuntes_cbApunte']);
+			
+			$fechaCita = mysqli_real_escape_string($conexion,$_POST['apuntes_fechaCita']);
+			$split_fechaCita = explode(" ",$fechaCita);
+			$split_fecha = explode("/",$split_fechaCita[0]);
+			$nuevoFormatoFecha = $split_fecha[2] . "-" . $split_fecha[1] . "-" . $split_fecha[0] . " " . $split_fechaCita[0];
+			
 		
 			$fecha = date('Y-m-d');
 		
 			$consulta = "
 			INSERT INTO inmo_visitas SET 
+			idSitioWeb = " . $idSitioWeb . ",
 			cliente='".$cliente."',  
 			usuario = '".$usuario."',
 			fecha = '".$fecha."',  
 			inmueble = '".$inmueble."', 
-			comentarios='".$comentarios."',   
+			comentarios='".$comentarios."',
+			fechaaviso='".$nuevoFormatoFecha."',
+			estadoCita='".$estadoCita."',
 			tipo='".$tipo."';";
 		
 			$retorno = mysqli_query($conexion,$consulta);

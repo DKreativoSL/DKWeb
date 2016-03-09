@@ -3,6 +3,14 @@ var getTablaRegistrosVisitasCliente;
 
 $(document).ready(function() {
 	
+	$("#apuntes_fechaCita").datetimepicker({
+		format: 'hh:ii:ss dd/mm/yyyy',
+		todayBtn: true,
+		language: 'es',
+		todayHighlight: true,
+		weekStart: 1
+	});
+	
 	$('#filtrarApuntes').click(function () {
 		filtrarApuntes();
 	});
@@ -19,6 +27,15 @@ $(document).ready(function() {
 	if (idCliente > 0) {
 		var formulario = $('#camposFormularioVisitas').html();
 		$('#apuntes_body').html(formulario);
+		
+		$("#apuntes_fechaCita").datetimepicker({
+			format: 'hh:ii:ss dd/mm/yyyy',
+			todayBtn: true,
+			language: 'es',
+			todayHighlight: true,
+			weekStart: 1
+		});
+		
 		$('#camposFormularioVisitas').html('');
 		$('#filtrosApuntes').hide();
 	}
@@ -53,6 +70,13 @@ $(document).ready(function() {
 	inicializaFiltrosApuntes();
 	$('.chosen-select').chosen({});
 	
+	$('#apuntes_cbApunte').change(function () {
+		if ($(this).val().toString() == "Cita") {
+			mostrarCamposCita(true);
+		} else {
+			mostrarCamposCita(false);
+		}
+	});
 });
 
 function inicializaFiltrosApuntes() {
@@ -259,18 +283,22 @@ function inicializaFiltrosApuntes() {
 	}
 		
 	function limpiaFormApuntes(){
+		
 		//Limpiamos todos los inputs
 		$('#camposFormularioVisitas input[type=text]').each(function () {
 			$(this).val('');	
 		});
+		
 		//Limpiamos todos los textarea
 		$('#camposFormularioVisitas input[type=textarea]').each(function () {
 			$(this).html('');	
 		});
+		
 		//Limpiamos todos los checkbox
 		$('#camposFormularioVisitas input[type=checkbox]').each(function () {
 			$(this).removeAttr('checked');
 		});
+		
 		//Limpiamos todos los selects
 		$('#camposFormularioVisitas select').each(function () {
 			$(this).children('option').each(function () {
@@ -278,16 +306,18 @@ function inicializaFiltrosApuntes() {
 			});
 		});
 		
+		//Limpiamos todos los inputs del popup
 		$('#popupApuntes input[type=text]').each(function () {
 			$(this).val('');	
 		});
-		//Limpiamos todos los textarea
+		
+		//Limpiamos todos los textarea del popup
 		$('#apuntes_comentarios').html('');
-		//Limpiamos todos los checkbox
+		//Limpiamos todos los checkbox del popup
 		$('#popupApuntes input[type=checkbox]').each(function () {
 			$(this).removeAttr('checked');
 		});
-		//Limpiamos todos los selects
+		//Limpiamos todos los selects del popup
 		$('#popupApuntes select').each(function () {
 			$(this).children('option').each(function () {
 				$(this).removeAttr('selected');
@@ -309,6 +339,11 @@ function modificaApuntesPopup(idVisita){
 			
 			$("#apuntes_txtId").val(datosVisita[0]['id']);
 			
+			var fechaCitaSplit = datosVisita[0]['fechaaviso'].split(" ");
+			var fechaSplit = fechaCitaSplit[0].split("-");
+			var nuevoFormatoFecha = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0] + " " + fechaCitaSplit[1];
+			$("#apuntes_fechaCita").val(nuevoFormatoFecha);
+			
 			obtenerPropietario(datosVisita[0]['cliente_id']);
 			obtenerInmueblesConId(datosVisita[0]['inmueble']);
 			bloquearSelectPropietario();
@@ -324,6 +359,20 @@ function modificaApuntesPopup(idVisita){
 			$('#apuntes_cbApunte option').each(function() {
 				if ($(this).val() == datosVisita[0]['tipo']) {
 					$(this).attr('selected','selected');
+					$('#apuntes_cbApunte').trigger("chosen:updated");
+					if ($(this).val().toString() == "Cita") {
+						mostrarCamposCita(true);
+					} else {
+						mostrarCamposCita(false);
+					}
+					
+				}
+			});
+			
+			$('#apuntes_estadoCita option').each(function() {
+				if ($(this).val().toString() == datosVisita[0]['estadoCita']) {
+					$(this).attr('selected','selected');
+					$('#apuntes_estadoCita').trigger("chosen:updated");
 				}
 			});
 			
@@ -349,11 +398,18 @@ function modificaApuntes(idVisita){
 		'accion': "leerVisita",
 		'id': idVisita
 	}, function(data, textStatus){
+		
 		if (data != "KO") {
 			var datosVisita = JSON.parse(data);
 			limpiaFormApuntes();
 			
 			$("#apuntes_txtId").val(datosVisita[0]['id']);
+			
+			
+			var fechaCitaSplit = datosVisita[0]['fechaaviso'].split(" ");
+			var fechaSplit = fechaCitaSplit[0].split("-");
+			var nuevoFormatoFecha = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0] + " " + fechaCitaSplit[1];
+			$("#apuntes_fechaCita").val(nuevoFormatoFecha);
 			
 			obtenerPropietario(datosVisita[0]['cliente_id']);
 			obtenerInmueblesConId(datosVisita[0]['inmueble']);
@@ -367,8 +423,24 @@ function modificaApuntes(idVisita){
 			$('#apuntes_cbApunte option').each(function() {
 				if ($(this).val() == datosVisita[0]['tipo']) {
 					$(this).attr('selected','selected');
+					$('#apuntes_cbApunte').trigger("chosen:updated");
+					if ($(this).val().toString() == "Cita") {
+						mostrarCamposCita(true);
+					} else {
+						mostrarCamposCita(false);
+					}
+					
+				}
+				
+			});
+			
+			$('#apuntes_estadoCita option').each(function() {
+				if ($(this).val().toString() == datosVisita[0]['estadoCita']) {
+					$(this).attr('selected','selected');
+					$('#apuntes_estadoCita').trigger("chosen:updated");
 				}
 			});
+			
 			/*
 			$("#apuntes_txtUsuaId").val(datosVisita[0]['usuario_id']);
 			$("#apuntes_txtUsuaNombre").val(datosVisita[0]['usuario_nombre']);
@@ -401,12 +473,15 @@ function modificaApuntes(idVisita){
 			jQuery.post("./modulos/inmobiliariaApuntes/dk-logica.php", {
 				'accion': accion,
 				apuntes_txtId: $("#apuntes_txtId").val(),
-				apuntes_txtUsuaId: $("#apuntes_selectUsuario").val(),
-				apuntes_txtPropId: $("#apuntes_selectPropietario").val(),
-				apuntes_txtInmoId: $("#apuntes_selectInmueble").val(),
+				apuntes_txtUsuaId: $("#apuntes_selectUsuario option:selected").val(),
+				apuntes_txtPropId: $("#apuntes_selectPropietario option:selected").val(),
+				apuntes_txtInmoId: $("#apuntes_selectInmueble option:selected").val(),
 				apuntes_comentarios: $("#apuntes_comentarios").val(),
-				apuntes_cbApunte: $("#apuntes_cbApunte").val()
+				apuntes_estadoCita: $("#apuntes_estadoCita option:selected").val(),
+				apuntes_fechaCita: $("#apuntes_fechaCita").val(),
+				apuntes_cbApunte: $("#apuntes_cbApunte option:selected").val()
 				}, function(data, textStatus){
+					console.log(data);
 					if (data == "KO")
 					{
 						mensaje("Ocurrió algún problema en el guardado. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.","danger","warning", 0);
@@ -451,3 +526,12 @@ function modificaApuntes(idVisita){
 			}
 		);		
 	}
+	
+
+function mostrarCamposCita(mostrar) {
+	if (mostrar) {
+		$('#camposEspecificosCita').show();
+	} else {
+		$('#camposEspecificosCita').hide();
+	}
+}

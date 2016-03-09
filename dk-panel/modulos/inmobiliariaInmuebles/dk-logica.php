@@ -41,17 +41,28 @@
 					$precio = number_format ($infoInmueble['precio'], 0, ",", ".");
 					
 					//Imagen principal
+					
+					
+					$idInmueble = mysqli_real_escape_string($conexion, $_POST['idInmueble']);
 					$ruta_base_publica = getInmoPublica($conexion,$idSitioWeb);
+					
 					$imagenPrincipal = '';
 					for ($i=1;$i<=15;$i++) {
 						$imagen = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
-						$imagen_src = $ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
+						$imagen_src = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
 						if (file_exists('../'.$imagen)) {
 							$imagenPrincipal = '<img width="1000px" height="465" src="'.$imagen_src.'">';
 							break;
+						}else{		//compruebo que sea imagen Web
+							$imagen = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'w.'.$i.'.jpg';
+							$imagen_src = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'w.'.$i.'.jpg';
+		
+							if (file_exists('../'.$imagen)) {
+								$imagenPrincipal = '<img width="1000px" height="465" src="'.$imagen_src.'">';
+								break;
+							}					
 						}
-					}
-					
+					}					
 					
 					//Obtenemos la base del documento
 					$escaparate_base = file_get_contents('print_escaparate.html');
@@ -85,6 +96,7 @@
 			$consulta = '
 			SELECT ref
 			FROM inmo_inmuebles
+			WHERE idSitioWeb = ' . $idSitioWeb . '
 			ORDER BY ref ASC LIMIT 1';
 			
 			$registro = mysqli_query($conexion, $consulta);
@@ -96,16 +108,17 @@
 		break;
 		case 'listaPropietarios':			
 			$consulta = "
-			SELECT clientes.id, 
-			clientes.nif, 
-			clientes.nombre, 
-			clientes.tlf1, 
-			clientes.tlf2, 
-			clientes.usuario, 
-			clientes.email,
-			clientes.nif
-			FROM inmo_clientes AS clientes
-			LEFT JOIN usuarios ON clientes.usuario = usuarios.id";
+			SELECT c.id, 
+			c.nif, 
+			c.nombre, 
+			c.tlf1, 
+			c.tlf2, 
+			c.usuario, 
+			c.email,
+			c.nif
+			FROM inmo_clientes AS c
+			LEFT JOIN usuarios AS u ON c.usuario = u.id
+			WHERE c.idSitioWeb = " . $idSitioWeb;
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = "";
@@ -165,7 +178,10 @@
 		case 'obtenerPropietario':
 			$idPropietario = mysqli_real_escape_string($conexion, $_POST['idPropietario']);
 						
-			$consulta = 'SELECT id, nombre FROM inmo_clientes';
+			$consulta = '
+			SELECT id, nombre 
+			FROM inmo_clientes
+			WHERE idSitioWeb = ' . $idSitioWeb;
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array();
@@ -183,7 +199,10 @@
 		case 'obtenerZonas':
 			$idZona = mysqli_real_escape_string($conexion, $_POST['idZona']);
 						
-			$consulta = 'SELECT * FROM inmo_zonas;';
+			$consulta = '
+			SELECT id, nombre
+			FROM inmo_zonas
+			WHERE idSitioWeb = ' . $idSitioWeb;
 			
 			$registro = mysqli_query($conexion, $consulta);
 			$tabla = array();
@@ -264,8 +283,7 @@
 			LEFT JOIN inmo_clientes AS clientes ON clientes.id = inmo_inmuebles.propietario
 			LEFT JOIN usuarios AS u ON u.id = inmo_inmuebles.usuario
 			LEFT JOIN inmo_zonas AS z ON z.id = inmo_inmuebles.zona
-			WHERE inmo_inmuebles.propietario = ".$idCliente."
-			AND u.id = " . $idUsuario;
+			WHERE inmo_inmuebles.propietario = ".$idCliente. " ";
 			
 			if( !empty($requestData['search']['value']) ) {
 					
@@ -292,7 +310,11 @@
 				7 => 'u.nombre',
 			);
 			
-			$consulta .= " ORDER BY " . $columns[$requestData['order'][0]['column']]." ".$requestData['order'][0]['dir'];
+			if (isset($requestData['order'])) {
+				$consulta .= " ORDER BY " . $columns[$requestData['order'][0]['column']]." ".$requestData['order'][0]['dir'];	
+			} else {
+				$consulta .= " ORDER BY inmo_inmuebles.ref ASC";
+			}
 			
 			//Obtenemos el total
 			$registroTotal = mysqli_query($conexion, $consulta);
@@ -300,12 +322,21 @@
 			$recordsTotalFiltered = $recordsTotal;
 			
 			//Limitamos los registros por pagina
-			$consulta .= " LIMIT ".$requestData['start']." ,".$requestData['length'];
+			if (isset($requestData['start'])) {
+				$consulta .= " LIMIT ".$requestData['start']." ,".$requestData['length'];	
+			} else {
+				$consulta .= " LIMIT 100";
+			}
 			$registro = mysqli_query($conexion, $consulta);
 			
+			if (isset($requestData['draw'])) {
+				$drawNumber = $requestData['draw'];	
+			} else {
+				$drawNumber = rand(100,10000);
+			}
 			
 			$resultado = array(
-				"draw" =>  intval( $requestData['draw'] ),
+				"draw" =>  intval( $drawNumber ),
 				"recordsTotal" => $recordsTotal,
 				"recordsFiltered" => $recordsTotalFiltered,
 				"data" => array()
@@ -327,7 +358,7 @@
 					'zona' => utf8_encode($row['nombreZona']),
 					'direccion' => utf8_encode($row['direccion']),
 					'precio' => $row['precio'].' - '.$row['precioalquiler'],
-					'usuario' => $row['nombreUsuario'],
+					'usuario' => utf8_encode($row['nombreUsuario']),
 					'acciones' => $edita.$borra
 				);
 				
@@ -386,8 +417,7 @@
 			FROM inmo_inmuebles
 			LEFT JOIN usuarios AS u ON u.id = inmo_inmuebles.usuario
 			LEFT JOIN inmo_zonas AS z ON z.id = inmo_inmuebles.zona
-			WHERE 1 = 1
-			";
+			WHERE inmo_inmuebles.idSitioWeb = " . $idSitioWeb;
 			
 			//fix
 			if ($zona==""){	$zona = "Todas";}
@@ -779,9 +809,6 @@
 			tipoCasa='".$mTipoCasa."'
 			WHERE id='".$mid."'";
 			
-			echo $consulta;
-			echo ' --- ';
-			
 			$retorno = mysqli_query($conexion, $consulta);
 			
 			if ($retorno){
@@ -908,6 +935,7 @@
 			
 			$consulta = "
 			INSERT INTO inmo_inmuebles SET 
+			idSitioWeb = " . $idSitioWeb . ",
 			ref='".$mref."', 
 			fechaalta='".$mfechaalta."', 
 			fechamod='".$mfechamod."', 
@@ -1015,27 +1043,64 @@
 			$idInmueble = mysqli_real_escape_string($conexion, $_POST['idInmueble']);
 			$ruta_base_publica = getInmoPublica($conexion,$idSitioWeb);
 			
+			
+			$consulta = "SELECT inmo_rutaPublica FROM sitiosweb WHERE id = ".$_SESSION['sitioWeb'];
+			$registro = mysqli_query($conexion, $consulta);
+			$row = mysqli_fetch_assoc($registro);
+			
+			$folders = explode ('/', $_SERVER['PHP_SELF']);
+			
+			$totalDirs = count($folders)-3;
+			$pre_ruta = '';
+			for ($i=1;$i<=$totalDirs;$i++) {
+				$pre_ruta .= '..'.DIRECTORY_SEPARATOR;
+			}
+
+			$pre_ruta_src = '';
+			for ($i=1;$i<=($totalDirs-2);$i++) {
+				$pre_ruta_src .= '..'.DIRECTORY_SEPARATOR;
+			}
+			
+			$ruta_final_publica = $pre_ruta . $row['inmo_rutaPublica'] . DIRECTORY_SEPARATOR . $idSitioWeb . DIRECTORY_SEPARATOR;
+			$ruta_final_publica_src = $pre_ruta_src . $row['inmo_rutaPublica'] . DIRECTORY_SEPARATOR . $idSitioWeb . DIRECTORY_SEPARATOR;
+			
 			$imagenes = '';
 			for ($i=1;$i<=15;$i++) {
-				$imagen = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
-				$imagen_src = $ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
-				if (file_exists('../'.$imagen)) {
+				$imagen = $ruta_final_publica.$idInmueble.'.'.$i.'.jpg';
+				$imagen_src = $ruta_final_publica_src.$idInmueble.'.'.$i.'.jpg';
+				if (file_exists($imagen)) {
+       				$imagenes .= '<img height="50px" src="'.$imagen_src.'" onClick="javascript:mostrarImagenGrande(this);" class="imagenGaleria" />';
+				}else{		//compruebo que sea imagen Web
+					$imagen = $ruta_final_publica.$idInmueble.'w.'.$i.'.jpg';
+					$imagen_src = $ruta_final_publica_src.$idInmueble.'w.'.$i.'.jpg';
+
+					if (file_exists($imagen)) {
+						$imagenes .= '<img height="50px" src="'.$imagen_src.'" class="imagenGaleria" onClick="javascript:mostrarImagenGrande(this);" />';
+					}					
+				}
+			}
+			/*
+			for ($i=1;$i<=15;$i++) {
+				$imagen = $ruta_final_publica.$idInmueble.'.'.$i.'.jpg';
+				$imagen_src = $ruta_final_publica_src.$idInmueble.'.'.$i.'.jpg';
+				if (file_exists($imagen)) {
        				$imagenes .= '
-       				<a href="'.$imagen_src.'" title="" target="_blank">
+       				<a href="'.$imagen_src.'" title="" target="_blank" class="imagenGaleria">
        					<img height="50px" src="'.$imagen_src.'" />
    					</a>';
 				}else{		//compruebo que sea imagen Web
-					$imagen = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'w.'.$i.'.jpg';
-					$imagen_src = $ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'w.'.$i.'.jpg';
+					$imagen = $ruta_final_publica.$idInmueble.'w.'.$i.'.jpg';
+					$imagen_src = $ruta_final_publica_src.$idInmueble.'w.'.$i.'.jpg';
 
-					if (file_exists('../'.$imagen)) {
+					if (file_exists($imagen)) {
 						$imagenes .= '
-						<a href="'.$imagen_src.'" title="" target="_blank">
+						<a href="'.$imagen_src.'" title="" target="_blank" class="imagenGaleria">
 							<img height="50px" src="'.$imagen_src.'" />
 						</a>';
 					}					
 				}
 			}
+			*/
 			echo $imagenes;
 		break;
 		

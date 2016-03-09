@@ -10,6 +10,15 @@
 		$idSitioWeb = $_SESSION['sitioWeb'];	
 	}
 	
+	function booleanToInt($string) {
+		$boolean = 0;
+		if (trim(strtolower($string)) == "true") {
+			$boolean = 1;
+		}
+		return $boolean;
+	}
+	
+	
 	switch ($accion) 
 	{
 		case 'entrar':
@@ -152,10 +161,28 @@
 
 			if (mysqli_query($conexion, $consulta)){
 				//si todo salió bien, lanzo los permisos
-				$consulta = "UPDATE usuariositios SET menuContenidoWeb='".$menuPermisoContenidoWeb."', menuConfiguracion='".$menuPermisoConfiguracion."', menuSecciones='".$menuPermisoSecciones."', menuParametros='".$menuPermisoParametros."', menuUsuarios='".$menuPermisoUsuarios."', menuCorreos='".$menuPermisoCorreos."' WHERE idUsuario='".$idRegistro."'";;			
-
+				$consulta = "
+				UPDATE usuariositios SET 
+				menuContenidoWeb=".booleanToInt($menuPermisoContenidoWeb).", 
+				menuConfiguracion=".booleanToInt($menuPermisoConfiguracion).", 
+				menuSecciones=".booleanToInt($menuPermisoSecciones).", 
+				menuParametros=".booleanToInt($menuPermisoParametros).", 
+				menuUsuarios=".booleanToInt($menuPermisoUsuarios).",
+				menuInmobiliaria=".booleanToInt($menuPermisoInmobiliaria).",
+				menuInmoApuntes=".booleanToInt($menuPermisoInmoApuntes).",
+				menuInmoClientes=".booleanToInt($menuPermisoInmoClientes).",
+				menuInmoInmuebles=".booleanToInt($menuPermisoInmoInmuebles).",
+				menuInmoZonas=".booleanToInt($menuPermisoUsuarios).", 
+				menuCorreos=".booleanToInt($menuPermisoCorreos)." 
+				WHERE id=".$idRegistro;
 				
-				echo $idRegistro;
+				echo $consulta;
+				
+				if (mysqli_query($conexion, $consulta)) {
+					echo $idRegistro;	
+				} else {
+					echo "KO".$consulta;	
+				}
 			}else{
 				echo "KO".$consulta;
 			};

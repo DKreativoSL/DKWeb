@@ -138,7 +138,7 @@
                     <div class="col-md-2"><input id="menuPermisoUsuarios" type="checkbox" /> Usuarios</div>
                     <div class="col-md-2"><input id="menuPermisoCorreos" type="checkbox" /> Config Correo</div>        
                 </div>
-                <div class="row form-group" hidden="true">
+                <div class="row form-group">
                     <div class="col-md-2"><input id="menuPermisoInmobiliaria" type="checkbox" /> Inmobiliaria</div>
                     <div class="col-md-2"><input id="menuPermisoInmoApuntes" type="checkbox" /> Inmobiliaria Apuntes</div>
                     <div class="col-md-2"><input id="menuPermisoInmoClientes" type="checkbox" /> Inmobiliaria Clientes</div>
@@ -148,7 +148,7 @@
             </div>
 		</div>                
         <div class="col-md-12" align="right">
-            <input id="botonGuarda" type="button" value="Guardar Documento" class="btn green" />
+            <input id="botonGuarda" type="button" value="Guardar Usuario" class="btn green" />
         </div>
 		
 </div>

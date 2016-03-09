@@ -2,7 +2,7 @@
 	session_start(); //inicializo sesión
 	
 	include("./../../conexion.php");
-		
+	include('funciones.php');
 	$accion = $_POST['accion'];
 	
 	if (!isset($_SESSION['sitioWeb'])) {
@@ -13,7 +13,88 @@
 	
 	switch ($accion) 
 	{
-		
+		case 'duplicarWebsite':
+			$idRegistroWebOriginal = mysqli_real_escape_string($conexion, $_POST['idWebsite']);
+			
+			//Seleccionamos la web a duplicar
+			//Cogemos su información y la guardamos en una variable
+			$website_original = array();
+			$sql_selectWebsite = "SELECT * FROM sitiosweb WHERE id = ".$idRegistroWebOriginal;
+			$data_selectWebsite = mysqli_query($conexion, $sql_selectWebsite);
+			while($row = mysqli_fetch_array($data_selectWebsite,MYSQL_ASSOC))
+			{
+				$website_original = $row;
+				break;
+			}
+			//echo '<pre>'.print_r($website_original,true).'</pre>';
+						
+						
+			//Creo la nueva web en la tabla sitiosweb
+			$sql_insertNuevaWeb = "
+			INSERT INTO sitiosweb SET 
+			idUsuarioPropietario=".$website_original['idUsuarioPropietario'].", 
+			nombre='Copia web ".$website_original['nombre']."', 
+			descripcion='".$website_original['descripcion']."', 
+			dominio='".$website_original['dominio']."', 
+			fechaCreacion='".$website_original['fechaCreacion']."', 
+			token='".md5($website_original['token'])."', 
+			ftp_server='".$website_original['ftp_server']."', 
+			ftp_user='".$website_original['ftp_user']."', 
+			ftp_pass='".$website_original['ftp_pass']."', 
+			ftp_rutabase='".$website_original['ftp_rutabase']."', 
+			css_tinymce='".$website_original['css_tinymce']."';";
+			mysqli_query($conexion, $sql_insertNuevaWeb);
+			$idSitioWebNuevo = mysqli_insert_id($conexion);
+
+			
+			//Buscamos en la tabla de usuariositios la relación entre el usuario y la web
+			$usuarioSitios_original = array();
+			$sql_selectUsuarioSitios = "SELECT * FROM usuariositios WHERE idSitioWeb = ".$website_original['id']. " AND idUsuario = ".$website_original['idUsuarioPropietario'];
+			$data_selectUsuarioSitios = mysqli_query($conexion, $sql_selectUsuarioSitios);
+			while($row = mysqli_fetch_array($data_selectUsuarioSitios,MYSQL_ASSOC))
+			{
+				$usuarioSitios_original = $row;
+				break;
+			}
+			//echo '<pre>'.print_r($usuarioSitios_original,true).'</pre>';
+			
+			//Vinculo el usuario de la antigua web con la nueva web en usuariositios
+			$sql_insertNuevoUsuarioSitios = "
+			INSERT INTO usuariositios SET 
+			idUsuario=".$website_original['idUsuarioPropietario'].",
+			idSitioWeb=".$idSitioWebNuevo.",
+			menuContenidoWeb=".$usuarioSitios_original['menuContenidoWeb'].",
+			menuConfiguracion=".$usuarioSitios_original['menuConfiguracion'].",
+			menuSecciones=".$usuarioSitios_original['menuSecciones'].",
+			menuParametros=".$usuarioSitios_original['menuParametros'].",
+			menuUsuarios=".$usuarioSitios_original['menuUsuarios'].",
+			menuInmobiliaria=".$usuarioSitios_original['menuInmobiliaria'].",
+			menuInmoApuntes=".$usuarioSitios_original['menuInmoApuntes'].",
+			menuInmoClientes=".$usuarioSitios_original['menuInmoClientes'].",
+			menuInmoInmuebles=".$usuarioSitios_original['menuInmoInmuebles'].",
+			menuInmoZonas=".$usuarioSitios_original['menuInmoZonas'].",
+			menuCorreos=".$usuarioSitios_original['menuCorreos'].",
+			menuMigracion=".$usuarioSitios_original['menuMigracion'].",
+			menuComentarios=".$usuarioSitios_original['menuComentarios'].",
+			menuTrashSecciones=".$usuarioSitios_original['menuTrashSecciones'].",
+			menuTrashArticulos=".$usuarioSitios_original['menuTrashArticulos'].",
+			menuUpdates=".$usuarioSitios_original['menuUpdates'].",
+			menuFTP=".$usuarioSitios_original['menuFTP'].",
+			menuAcademia=".$usuarioSitios_original['menuAcademia'].";
+			";
+			
+			mysqli_query($conexion, $sql_insertNuevoUsuarioSitios);
+			$idUsuariosSitiosNuevo = mysqli_insert_id($conexion);
+			//Obtengo todas las secciones de la vieja web y las creo en la nueva web con sus respectivos articulos
+			
+			$dataReturn = array();
+			getAllSectionsWithData($dataReturn,$idRegistroWebOriginal,0,$conexion);
+			
+			if (!empty($dataReturn)) {
+				importAllSectionsWithData($dataReturn,$idSitioWebNuevo,0,$conexion);
+			}
+			echo "OK";
+		break;
 		case 'listaUsuarios':			
 			$consulta = "SELECT * FROM usuarios";
 			$registro = mysqli_query($conexion, $consulta);
@@ -72,49 +153,49 @@
 			{
 				$edita = '<a href=\"#\" onclick=\"modifica('.$row['id'].')\" class=\"iconModificar\"><i class=\"fa fa-edit fa-2x\"></i></a>';
 				$borra = '<a class=\"delete\" href=\"#\" onclick=\"elimina('.$row['id'].')\"><i class=\"fa fa-trash-o fa-2x\"></i></a>';
+				$duplicarWeb = '<a class=\"iconDuplicar\" href=\"#\" onclick=\"duplicarWeb('.$row['id'].')\"><i class=\"fa fa-copy fa-2x\"></i></a>';
 				
-				$tabla.='{"nombre":"'.utf8_encode($row['nombre']).'","descripcion":"'.utf8_encode($row['descripcion']).'","dominio":"'.utf8_encode($row['dominio']).'","fechaCreacion":"'.utf8_encode($row['fechaCreacion']).'","token":"'.utf8_encode($row['token']).'","acciones":"'.$edita.$borra.'"},';		
+				$tabla.='{"nombre":"'.utf8_encode($row['nombre']).'","descripcion":"'.utf8_encode($row['descripcion']).'","dominio":"'.utf8_encode($row['dominio']).'","fechaCreacion":"'.utf8_encode($row['fechaCreacion']).'","token":"'.utf8_encode($row['token']).'","acciones":"'.$duplicarWeb.$edita.$borra.'"},';		
 				$i++;
 			}
 			$tabla = substr($tabla,0, strlen($tabla) - 1);
 
 			echo '{"data":['.$tabla.']}';
-			break;
-		
-		
-		//ACTUALMENTE NO ESTÁ FUNCIONAL	
+		break;
 		case 'elimina':
-		
 			$idRegistro = mysqli_real_escape_string($conexion, $_POST['id']);
 			
-			//antes de eliminarlo de bbdd, lanzo para eliminarlo en el server			
-			include("./../../funcionesPlesk.php");
-			suscriptionPlesk("r", "", "", "", $idRegistro);	
+			//Elimino los articulos de la web a eliminar
+			$sql_eliminarArticulos = "
+			DELETE FROM articulos
+			WHERE idSeccion in (
+				SELECT s.id 
+				FROM secciones AS s
+				WHERE s.idSitioWeb = ".$idRegistro."
+			);
+			";
+			if (mysqli_query($conexion, $sql_eliminarArticulos)) {
+				//Elimino las secciones
+				$sql_eliminarSecciones = "DELETE FROM secciones WHERE idSitioWeb=".$idRegistro;
+				if (mysqli_query($conexion, $sql_eliminarSecciones)) {
+					//Elimino la relacion de la web con el usuario
+					$sql_eliminarUsuarioSitios = "DELETE FROM usuariositios WHERE idSitioWeb=".$idRegistro;
+					if (mysqli_query($conexion, $sql_eliminarUsuarioSitios)) {
+						//Elimino la web
+						$sql_eliminarWebsite = "DELETE FROM sitiosweb WHERE id=".$idRegistro;
+						if (mysqli_query($conexion, $sql_eliminarWebsite)) {
+							//Elimino el registro en plesk			
+							include("./../../funcionesPlesk.php");
+							suscriptionPlesk("r", "", "", "", $idRegistro);
+							
+							echo "OK";
+							
+						} else echo "KO";
+					} else echo "KO";
+				} else echo "KO";
+			} else echo "KO";
 			
-			$consulta = "delete from sitiosweb where id='".$idRegistro."'";			
-			
-			//HAY QUE ELIMINAR LA RELACIÓN WEB CON USUARIO
-			//elimino la relación de usuario con sitio web
-			if (mysqli_query($conexion, $consulta))
-			{							
-				echo "OK";
-				
-			}else{
-				echo "KO";
-				/*if (mysqli_affected_rows($conexion) > 0){
-					//Si elimina algún usuariositios, lo elimino también de usuarios					
-					$consulta = "delete from usuariositioweb where id='".$idRegistro."'";					
-					if (mysqli_query($conexion, $consulta))
-					{
-						echo "OK";
-					}else{
-						echo "KO";
-						}
-				}else{
-					echo "KO";
-				}*/
-			}
-			break;
+		break;
 			
 		case 'guarda':	
 			//recojo todos los datos del anterior form y lo paso para guardarlo en la bdatos

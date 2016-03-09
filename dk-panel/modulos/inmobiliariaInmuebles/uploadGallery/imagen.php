@@ -31,7 +31,6 @@
 	
 	$ruta_final_publica = $pre_ruta . $row['inmo_rutaPublica'] . DIRECTORY_SEPARATOR . $idSitioWeb . DIRECTORY_SEPARATOR;
 	
-	
 	if (!file_exists($ruta_final_publica))
 		@mkdir($ruta_final_publica,0755,true);
 	

@@ -40,6 +40,15 @@ $(document).ready(function() {
 	}
 
 	function actualizaListaArticulos(){
+		/*
+		jQuery.post("./modulos/basico/dk-logica.php", {
+			accion: "listaArticulos",
+			seccion: seccionActual					
+		},
+		function(data, textStatus){
+			console.log(data);
+		});
+		*/
 		
 		$('#tablaRegistros').dataTable( 		
 		{	
@@ -178,6 +187,7 @@ $(document).ready(function() {
 		$("#archivo").val("");
 		$("#url").val("");
 		$("#campoExtra").val("");
+		$("#orden").val("");
 		
 		setFechaHoraDefecto('fechaPublicacion');
 
@@ -231,6 +241,8 @@ $(document).ready(function() {
 					$("#archivo").val(datosArticulo[0]['archivo']);
 					$("#url").val(datosArticulo[0]['url']);
 					$("#campoExtra").val(datosArticulo[0]['campoExtra']);
+					
+					$("#orden").val(datosArticulo[0]['orden']);
 					
 					$('#estado option').each(function() {
 						if ($(this).val() == datosArticulo[0]['estado']) {

@@ -7,7 +7,7 @@
 <form action="imagen.php" method="post" enctype="multipart/form-data" name="form" id="form">
   <p>&nbsp;</p>
   <?php 
-  	$idImg = $_GET['ref'];
+  	$idImg = $_GET['id'];
 	
 	?>
     
