@@ -103,7 +103,7 @@ include("acceso.php"); //compruebo la sesión
 	<!-- BEGIN FOOTER -->
 	<div class="page-footer">
 		<div class="page-footer-inner">
-			2009 - 2014 &copy; Dk Web 2.0 - Dkreativo Cloud Solutions S.L.
+			2009 - 2016 &copy; Dk Web 2.0 - Dkreativo Cloud Solutions S.L.
 		</div>
 		<div class="scroll-to-top">
 			<i class="icon-arrow-up"></i>

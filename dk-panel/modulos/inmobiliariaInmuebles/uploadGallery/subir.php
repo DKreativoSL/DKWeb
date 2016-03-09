@@ -1,3 +1,16 @@
+<?php
+	session_start(); //inicializo sesión
+	
+	include("./../../conexion.php");
+	include("./../../funciones.php");
+	$accion = $_REQUEST['accion'];
+	
+	$idSitioWeb = $_SESSION['sitioWeb'];
+	$idUsuario = $_SESSION['idUsuario'];
+	$grupo = $_SESSION['grupo'];
+	$requestData = $_REQUEST;
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,19 +25,38 @@
 	?>
     
     <input type="hidden" name="numero" id="numero" value="<?php echo $idImg; ?>"/>
+    <?php
+	
+    	$idInmueble = mysqli_real_escape_string($conexion, $idImg);
+//		$ruta_base_publica = getInmoPublica($conexion,$idSitioWeb);
+		$ruta_base_publica = "../../../archivos/inmo_public/".$idSitioWeb."/";
+			/**
+			$imagenes = '';
+			for ($i=1;$i<=15;$i++) {
+				$imagen = '../'.$ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
+				$imagen_src = $ruta_base_publica.'/'.$idSitioWeb.'/'.$idInmueble.'.'.$i.'.jpg';
+				if (file_exists('../'.$imagen)) {
+       				$imagenes .= '
+       				<a href="'.$imagen_src.'" title="" target="_blank">
+       					<img height="50px" src="'.$imagen_src.'" />
+   					</a>';
+				}
+			}
+			echo "ale".$imagenes; ?>
+    */ ?>
     
   <table width="100%" border="0" cellpadding="3">
     <tr>
       <th align="left" scope="col">
       <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".1.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".1.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".1.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".1.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.1.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.1.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.1.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.1.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -41,13 +73,13 @@ Web</td>
       <th width="4%" align="left" scope="col">
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".2.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".2.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".2.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".2.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.2.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.2.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.2.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.2.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -62,13 +94,13 @@ Web</td>
       <th width="4%" align="left" scope="col">
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".3.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".3.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".3.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".3.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.3.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.3.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.3.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.3.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -89,13 +121,13 @@ Web</td>
       <td align="left">
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".4.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".4.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".4.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".4.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.4.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.4.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.4.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.4.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -109,13 +141,13 @@ Web</td>
       <td align="left">
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".5.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".5.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".5.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".5.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.5.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.5.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.5.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.5.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -129,13 +161,13 @@ Web</td>
       <td align="left">
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".6.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".6.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".6.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".6.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.6.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.6.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.6.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.6.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -156,13 +188,13 @@ Web</td>
       <td align="left"> 
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".7.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".7.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".7.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".7.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.7.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.7.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.7.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.7.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -177,13 +209,13 @@ Web</td>
       <td align="left">
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".8.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".8.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".8.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".8.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.8.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.8.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.8.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.8.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -197,13 +229,13 @@ Web</td>
       <td align="left">
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".9.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".9.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".9.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".9.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.9.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.9.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.9.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.9.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -223,13 +255,13 @@ Web</td>
     <tr>
       <td align="left">      <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".10.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".10.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".10.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".10.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.10.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.10.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.10.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.10.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -242,13 +274,13 @@ Web</td>
 Web</td>
       <td align="left">      <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".11.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".11.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".11.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".11.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.11.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.11.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.11.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.11.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -261,13 +293,13 @@ Web</td>
 Web</td>
       <td align="left">      <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".12.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".12.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".12.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".12.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.12.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.12.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.12.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.12.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -287,13 +319,13 @@ Web</td>
     <tr>
       <td width="4%" align="left">      <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".13.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".13.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".13.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".13.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.13.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.13.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.13.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.13.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -306,13 +338,13 @@ Web</td>
       Web<br /></td>
       <td align="left">      <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".14.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".14.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".14.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".14.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.14.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.14.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.14.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.14.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
@@ -326,13 +358,13 @@ Web</td>
       <td align="left">
             <?php 
 		$websi = "";
-		  if (file_exists("../../../archivos/inmobiliaria/".$idImg.".15.jpg"))
+		  if (file_exists($ruta_base_publica.$idImg.".15.jpg"))
 		  { ?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg.".15.jpg"; ?>" />
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg.".15.jpg"; ?>" />
             <?php
-		  }elseif (file_exists("../../../archivos/inmobiliaria/".$idImg."w.15.jpg")){
+		  }elseif (file_exists($ruta_base_publica.$idImg."w.15.jpg")){
 		?>
-      		<img height="50px" src="../../../archivos/inmobiliaria/<?php echo $idImg."w.15.jpg"; ?>" />            
+      		<img height="50px" src="<?php echo $ruta_base_publica.$idImg."w.15.jpg"; ?>" />            
         <?php
 			$websi = 'checked="checked"';
 		  }else{
