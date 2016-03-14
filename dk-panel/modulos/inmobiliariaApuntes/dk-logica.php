@@ -117,7 +117,7 @@
 		
 			while($row = mysqli_fetch_array($registro,MYSQL_ASSOC))
 			{
-				$tabla[$i] = $row; //array_map("utf8_encode",$row);
+				$tabla[$i] = array_map("utf8_encode",$row);
 				$i++;
 			}
 			

@@ -1241,7 +1241,7 @@ function guardaInmuebles(esPopup){
 			txtDireccion: $("#inmueble_txtDireccion").val(),
 			zona: $("#inmueble_zona").val(),
 			
-			lstinmueble: $('#inmueble_lstinmueble').val(),
+			lstinmueble: $('#inmueble_lstinmueble option:selected').val(),
 			
 			txtPortal: $("#inmueble_txtPortal").val(),
 			txtPlanta: $("#inmueble_txtPlanta").val(),
@@ -1321,7 +1321,6 @@ function guardaInmuebles(esPopup){
 			chAlmacena: $("#inmueble_chAlmacena").is(':checked'),
 			chVestibulo: $("#inmueble_chVestibulo").is(':checked'),
 			chGasciudad: $("#inmueble_chGasciudad").is(':checked'),
-			lstinmueble: $("#inmueble_lstinmueble").val(),
 			cbTipoTerreno: $("#inmueble_cbTipoTerreno").val(),
 			cbAcceso: $("#inmueble_cbAcceso").val(),
 			chRiego: $("#inmueble_chRiego").is(':checked'),

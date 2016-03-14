@@ -341,7 +341,7 @@ function modificaApuntesPopup(idVisita){
 			
 			var fechaCitaSplit = datosVisita[0]['fechaaviso'].split(" ");
 			var fechaSplit = fechaCitaSplit[0].split("-");
-			var nuevoFormatoFecha = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0] + " " + fechaCitaSplit[1];
+			var nuevoFormatoFecha = fechaCitaSplit[1] + " " + fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
 			$("#apuntes_fechaCita").val(nuevoFormatoFecha);
 			
 			obtenerPropietario(datosVisita[0]['cliente_id']);
@@ -408,7 +408,7 @@ function modificaApuntes(idVisita){
 			
 			var fechaCitaSplit = datosVisita[0]['fechaaviso'].split(" ");
 			var fechaSplit = fechaCitaSplit[0].split("-");
-			var nuevoFormatoFecha = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0] + " " + fechaCitaSplit[1];
+			var nuevoFormatoFecha = fechaCitaSplit[1] + " " + fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
 			$("#apuntes_fechaCita").val(nuevoFormatoFecha);
 			
 			obtenerPropietario(datosVisita[0]['cliente_id']);
