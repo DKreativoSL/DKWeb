@@ -146,9 +146,10 @@ $(document).ready(function() {
 				{ "data": "nombre" },
 				{ "data": "usuario" },
 				{ "data": "cursos" },
-				{ "data": "acciones" }
+				{ "data": "acciones","sortable":false }
 			],
 			"bDeferRender": true,
+			"bDestroy" : true,
 			"oLanguage": {
 				"sEmptyTable": "No hay registros disponibles",
 				"sInfo": "Hay _TOTAL_ registros. Mostrando de (_START_ a _END_)",
@@ -234,7 +235,7 @@ $(document).ready(function() {
 				{ "data": "fechaBaja" },
 				{ "data": "ultimoAcceso" },
 				{ "data": "progreso" },
-				{ "data": "acciones" }
+				{ "data": "acciones","sortable":false }
 			],
 			"bDeferRender": true,
 			"bDestroy": true,

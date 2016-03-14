@@ -29,9 +29,10 @@
 					{ "data": "tlf1" },
 					{ "data": "fechaAlta" },
 					{ "data": "fechaBaja" },
-					{ "data": "acciones" }
+					{ "data": "acciones","sortable":false }
 					],
 			"bDeferRender": true,
+			"bDestroy" : true,
 			"oLanguage": {
 			"sEmptyTable": "No hay registros disponibles",
 			"sInfo": "Hay _TOTAL_ registros. Mostrando de (_START_ a _END_)",
@@ -58,23 +59,39 @@
 		
 	function limpiaForm(){
 		/*limpio*/
-		$("#id").val("");
-		$("#email").val("");
-		$("#clave").val("");
-		$("#nombre").val("");
-		$("#nif").val("");
-		$("#direccion").val("");
-		$("#cp").val("");
-		$("#poblacion").val("");
-		$("#provincia").val("");
-		$("#tlf1").val("");
-		$("#tlf2").val("");
-		$("#sobreti").val("");
-		}
+		//Limpiamos todos los inputs
+		$('#camposFormulario input[type=text]').each(function () {
+			$(this).val('');	
+		});
+		
+		$('#camposFormulario input[type=password]').each(function () {
+			$(this).val('');	
+		});
+		
+		//Limpiamos todos los textarea
+		$('#camposFormulario input[type=textarea]').each(function () {
+			$(this).html('');	
+		});
+		
+		//Limpiamos todos los checkbox
+		$('#camposFormulario input[type=checkbox]').each(function () {
+			$(this).removeAttr('checked');
+		});
+		
+		//Limpiamos todos los selects
+		$('#camposFormulario select').each(function () {
+			$(this).children('option').each(function () {
+				$(this).removeAttr('selected');
+			});
+		});
+	}
 
 
 	function modifica(idRegistro){
-			jQuery.post("./modulos/usuariosAdmin/dk-logica.php", {
+		
+		limpiaForm();
+		
+		jQuery.post("./modulos/usuariosAdmin/dk-logica.php", {
 			accion: "leeRegistro",
 			id: idRegistro
 			}, function(data, textStatus){
@@ -82,9 +99,6 @@
 				{
 					var datos = JSON.parse(data);
 					
-					console.log(datos);
-					
-					/*Cargo en los campos*/
 					$("#id").val(datos[0]['id']);
 					$("#email").val(datos[0]['email']);
 					$("#clave").val(datos[0]['clave']);
@@ -98,7 +112,7 @@
 					$("#tlf2").val(datos[0]['tlf2']);
 					$("#sobreti").val(datos[0]['sobreti']);
 				
-					/*PERMISOS*/
+					/*
 					$("#menuPermisoContenidoWeb").prop("checked" , parseInt(datos[0]['menuContenidoWeb']));
 					$("#menuPermisoConfiguracion").prop("checked" , parseInt(datos[0]['menuConfiguracion']));
 					$("#menuPermisoSecciones").prop("checked" , parseInt(datos[0]['menuSecciones']));
@@ -110,7 +124,7 @@
 					$("#menuPermisoInmoClientes").prop("checked" , parseInt(datos[0]['menuInmoClientes']));
 					$("#menuPermisoInmoInmuebles").prop("checked" , parseInt(datos[0]['menuInmoInmuebles']));
 					$("#menuPermisoInmoZonas").prop("checked" , parseInt(datos[0]['menuInmoZonas']));	
-					
+					*/
 					
 					$("#listaRegistros").fadeOut('fast', function () {
 						$("#camposFormulario").fadeIn('fast');
@@ -150,8 +164,9 @@
 				provincia: $("#provincia").val(),
 				tlf1: $("#tlf1").val(),
 				tlf2: $("#tlf2").val(),
-				comentarios: $("#sobreti").val(),
-				/* <----------------------------------------PERMISOS*/
+				comentarios: $("#sobreti").val()
+				
+				/*
 				menuPermisoContenidoWeb: $("#menuPermisoContenidoWeb").prop("checked"),
 				menuPermisoConfiguracion: $("#menuPermisoConfiguracion").prop("checked"),
 				menuPermisoSecciones: $("#menuPermisoSecciones").prop("checked"),
@@ -163,11 +178,17 @@
 				menuPermisoInmoClientes:	$("#menuPermisoInmoClientes").prop("checked"),
 				menuPermisoInmoInmuebles: $("#menuPermisoInmoInmuebles").prop("checked"),
 				menuPermisoInmoZonas: $("#menuPermisoInmoZonas").prop("checked")
+				*/
 				}, function(data, textStatus){
 					if (data != "KO")
 					{
-						mensaje("Registro guardado correctamente.","success","check", 5);
-						$("#id").val(data);
+						$("#camposFormulario").fadeOut('fast', function () {
+							$('#tablaRegistros').dataTable()._fnAjaxUpdate();
+							$("#listaRegistros").fadeIn('fast');
+							mensaje("Registro guardado correctamente.","success","check", 5);
+							$("#id").val('');
+						});
+						
 					}else{
 						mensaje("Ocurrió algún problema al guardar. Pongase en contacto con desarrollo@dkreativo.es si el problema continua.<br>","danger","warning", 0);
 					}

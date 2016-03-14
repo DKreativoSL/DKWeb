@@ -46,3 +46,48 @@
 2016-02-19 12:46:57 Servidor 
 2016-02-19 12:46:57 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '64'
 2016-02-19 12:46:57 ERROR Suscripcion r
+2016-03-09 16:20:07 Servidor 
+2016-03-09 16:20:07 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '1'
+2016-03-09 16:20:07  suscription -u -owner DkWebAutomatico -hosting 'true' -ip 192.168.1.239 -login 'casabank.net' -passwd 'uZpz9_49'
+2016-03-09 16:20:18 Servidor 
+2016-03-09 16:20:18 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '1'
+2016-03-09 16:20:18  suscription -u -owner DkWebAutomatico -hosting 'true' -ip 192.168.1.239 -login 'CasaBank' -passwd 'uZpz9_49'
+2016-03-09 16:50:25 Servidor 
+2016-03-09 16:50:25 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '2'
+2016-03-09 16:50:25 ERROR Suscripcion r
+2016-03-10 17:45:23 Servidor 
+2016-03-10 17:45:23 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '5'
+2016-03-10 17:45:23 ERROR Suscripcion r
+2016-03-10 17:45:24 Servidor 
+2016-03-10 17:45:24 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '4'
+2016-03-10 17:45:24 ERROR Suscripcion r
+2016-03-10 17:46:18 Servidor 
+2016-03-10 17:46:18 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '6'
+2016-03-10 17:46:18 ERROR Suscripcion r
+2016-03-10 17:46:19 Servidor 
+2016-03-10 17:46:19 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '7'
+2016-03-10 17:46:19 ERROR Suscripcion r
+2016-03-10 18:29:48 Servidor 
+2016-03-10 18:29:48 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '8'
+2016-03-10 18:29:48 ERROR Suscripcion r
+2016-03-10 18:29:49 Servidor 
+2016-03-10 18:29:49 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '3'
+2016-03-10 18:29:49 ERROR Suscripcion r
+2016-03-10 18:31:46 Servidor 
+2016-03-10 18:31:46 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '11'
+2016-03-10 18:31:46 ERROR Suscripcion r
+2016-03-10 18:31:47 Servidor 
+2016-03-10 18:31:47 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '10'
+2016-03-10 18:31:47 ERROR Suscripcion r
+2016-03-10 18:31:48 Servidor 
+2016-03-10 18:31:48 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '9'
+2016-03-10 18:31:48 ERROR Suscripcion r
+2016-03-10 18:32:11 Servidor 
+2016-03-10 18:32:11 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '14'
+2016-03-10 18:32:11 ERROR Suscripcion r
+2016-03-10 18:32:12 Servidor 
+2016-03-10 18:32:12 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '13'
+2016-03-10 18:32:12 ERROR Suscripcion r
+2016-03-10 18:32:13 Servidor 
+2016-03-10 18:32:13 Consulta SELECT ftp_server FROM sitiosweb WHERE id = '12'
+2016-03-10 18:32:13 ERROR Suscripcion r

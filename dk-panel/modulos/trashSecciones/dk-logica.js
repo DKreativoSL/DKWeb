@@ -26,9 +26,10 @@
 					{ "data": "nombre" },
 					{ "data": "tipo" },
 					{ "data": "orden" },										
-					{ "data": "acciones" }
+					{ "data": "acciones","sortable":false }
 					],
 			"bDeferRender": true,
+			"bDestroy" : true,
 			"oLanguage": {
 			"sEmptyTable": "No hay registros disponibles",
 			"sInfo": "Hay _TOTAL_ registros. Mostrando de (_START_ a _END_)",

@@ -1,6 +1,6 @@
 <?php
 
-function importAllSectionsWithData(&$dataReturn,$idSitioWeb,$idSeccionPadre,$conexion) {
+function importAllSectionsWithData(&$dataReturn,$idSitioWeb,$idSeccionPadre,$conexion,$idUsuarioAVincularDatos) {
 	foreach ($dataReturn as $id=>$seccion) {
 		$sql_insert = '
 		INSERT INTO secciones SET
@@ -35,7 +35,7 @@ function importAllSectionsWithData(&$dataReturn,$idSitioWeb,$idSeccionPadre,$con
 					
 					$sql = 'INSERT INTO articulos SET ';
 					$sql .= 'idSeccion='.$idPadre.', ';
-					$sql .= 'idUsuario="'.$articulo['idUsuario'].'", ';
+					$sql .= 'idUsuario="'.$idUsuarioAVincularDatos.'", ';
 					$sql .= 'titulo="'.$articulo['titulo'].'", ';
 					$sql .= 'subtitulo="'.$articulo['subtitulo'].'", ';
 					$sql .= 'fecha="'.$articulo['fecha'].'", ';
@@ -55,7 +55,7 @@ function importAllSectionsWithData(&$dataReturn,$idSitioWeb,$idSeccionPadre,$con
 			
 			//INSERTAMOS LOS HIJOS CON DATOS
 			if (!empty($seccion['childrens'])) {
-				importAllSectionsWithData($seccion['childrens'],$idSitioWeb,$idPadre,$conexion);	
+				importAllSectionsWithData($seccion['childrens'],$idSitioWeb,$idPadre,$conexion,$idUsuarioAVincularDatos);	
 			}
 		} else {
 			return false;

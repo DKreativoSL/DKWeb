@@ -10,7 +10,7 @@
                 <th width="15%">fechaAlta</th>                
                 <th width="15%">fechaBaja</th>
                 <th width="10%" align="right">
-                	<a id="botonNuevo" href="#" title="A&ntilde;adir un nuevo usuario" class="botonNuevo">
+                	<a id="botonNuevo" href="#" title="Crear usuario" data-toggle="tooltip" class="botonNuevo">
                 		<i class="fa fa-plus-circle fa-2x"></i>
             		</a>
         		</th>
@@ -123,6 +123,7 @@
                 </div>
 			</div>
 		</div>
+		<!--
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title text-left">Permisos</h3>
@@ -146,9 +147,10 @@
                     <div class="col-md-2"><input id="menuPermisoInmoZonas" type="checkbox" /> Inmobiliaria Zona</div>
 				</div>
             </div>
-		</div>                
+		</div>
+		-->              
         <div class="col-md-12" align="right">
-            <input id="botonGuarda" type="button" value="Guardar Usuario" class="btn green" />
+            <input id="botonGuarda" type="button" value="Guardar Usuario" class="btn btn-primary btn-sm" />
         </div>
 		
 </div>

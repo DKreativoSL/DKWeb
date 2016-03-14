@@ -3,6 +3,12 @@ var seccionActual = 0;
 $(document).ready(function(){
 	
 	InicializaMenu();
+	
+	$('body').tooltip({
+	    selector: '[data-toggle=tooltip]',
+	    container : 'body'
+	});
+	
 });
 
 	function ventanaPopup(url) {
@@ -107,10 +113,22 @@ $(document).ready(function(){
 		
 	function cargaContenidoWeb(){
 		/*Cargo las secciones por sitioweb */
+		
+		jQuery.post(
+			"principal.php",
+			{
+				accion: 'traeSeccionesV2'
+			},
+			function(data, textStatus){
+				$("#seccionesWeb").html(data);
+			}
+		);
+		
+		/*
 		jQuery.post("principal.php", {
 			accion: 'traeSecciones'
 			}, function(data, textStatus){
-				console.log(data);
+				//console.log(data);
 				var seccionesWeb = JSON.parse(data);
 				if (data == ""){
 					alert("Ha ocurrido un error con la carga de las secciones, pongase en contacto con Dkreativo (desarrollo@dkreativo.es)");
@@ -134,6 +152,7 @@ $(document).ready(function(){
 					}
 				}
 			});
+			*/
 		}
 
 	function cargaMenuLateral() {

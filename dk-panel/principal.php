@@ -1,7 +1,7 @@
 <?php
 	session_start(); //inicializo sesión
 	include("conexion.php");
-	
+	include('funciones.php');	
 	//también la acción que ha de venir para todas las funciones
 	$accion = $_POST['accion'];
 	
@@ -82,7 +82,21 @@
 				echo json_encode(array('null'));
 			}
 		break;
-			
+		case 'traeSeccionesV2':
+			if (isset($_SESSION['sitioWeb'])) {
+				$dataReturn = array();
+				obtenerArbolSecciones($dataReturn,0,$conexion,$_SESSION['sitioWeb']);
+				
+				
+				$_html = '';
+				crearMenuSecciones($_html,$dataReturn);
+				
+				echo $_html;
+				//echo json_encode($tabla);
+			} else {
+				echo json_encode(array('null'));
+			}
+		break;
 		case 'cargaMenuLateral':
 			
 			$menu ='<li><a href="index.php"><i class="icon-monitor"></i><span class="title">Escritorio</span></a></li>';

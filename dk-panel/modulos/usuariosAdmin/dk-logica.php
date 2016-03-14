@@ -59,24 +59,27 @@
 			$idRegistro = mysqli_real_escape_string($conexion, $_POST['id']);
 			
 			/* Tiro una SQL comprobando que el id pertenece al sitioweb del usuario autenticado */			
-			$consulta = "SELECT * FROM usuarios left join usuariositios on usuarios.Id=usuariositios.idUsuario WHERE usuarios.id = ".$idRegistro;
+			$consulta = "
+			SELECT *
+			FROM usuarios 
+			WHERE id = ".$idRegistro;
 			
 			$registro = mysqli_query($conexion, $consulta);
 
+		
 			$tabla = array(); //creamos un array
 
 			//cargamos en un array multidimensional todos los datos de la consulta
 			$i=0;
-		
 			while($row = mysqli_fetch_array($registro))
 			{
-				$tabla[$i] = $row;
+				$tabla[$i] = array_map("utf8_encode", $row);
 				$i++;
 			}
 			//echo $consulta;
 			echo json_encode($tabla);
 			
-			break;
+		break;
 					
 		/*Devuelvo todos los usuarios de un sitioweb para listarlos*/
 		case 'listaRegistros':
@@ -92,9 +95,9 @@
 			while($row = mysqli_fetch_array($registro))
 			{
 				//$llave = '<a href=\"#\" onclick=\"entrar('.$row['id'].')\"><img border=\"0px\" src=\"./imgs/iconoLlave_24x24.png\" alt=\"Entrar\"/></a>';
-				$llave = '<a href=\"#\" onclick=\"entrar('.$row['id'].')\" class=\"iconModificar\"><i class=\"fa fa-key fa-2x\"></i></a>';
-				$edita = '<a href=\"#\" onclick=\"modifica('.$row['id'].')\" class=\"iconModificar\"><i class=\"fa fa-edit fa-2x\"></i></a>';
-				$borra = '<a class=\"delete\" href=\"#\" onclick=\"elimina('.$row['id'].')\"><i class=\"fa fa-trash-o fa-2x\"></i></a>';
+				$llave = '<a href=\"#\" title=\"Entrar como...\" data-toggle=\"tooltip\" onclick=\"entrar('.$row['id'].')\" class=\"iconModificar\"><i class=\"fa fa-key fa-2x\"></i></a>';
+				$edita = '<a href=\"#\" title=\"Editar usuario\" data-toggle=\"tooltip\" onclick=\"modifica('.$row['id'].')\" class=\"iconModificar\"><i class=\"fa fa-edit fa-2x\"></i></a>';
+				$borra = '<a class=\"delete\" title=\"Eliminar usuario\" data-toggle=\"tooltip\" href=\"#\" onclick=\"elimina('.$row['id'].')\"><i class=\"fa fa-trash-o fa-2x\"></i></a>';
 				
 				$tabla.='{"nombre":"'.utf8_encode($row['nombre']).'","email":"'.utf8_encode($row['email']).'","tlf1":"'.utf8_encode($row['tlf1']).'","fechaAlta":"'.utf8_encode($row['fechaAlta']).'","fechaBaja":"'.utf8_encode($row['fechaBaja']).'","acciones":"'.$llave.$edita.$borra.'"},';		
 				$i++;
@@ -145,6 +148,7 @@
 			$tlf2 = mysqli_real_escape_string($conexion, $_POST['tlf2']);
 			$comentarios = mysqli_real_escape_string($conexion, $_POST['comentarios']);
 			
+			/*
 			$menuPermisoContenidoWeb= mysqli_real_escape_string($conexion, $_POST['menuPermisoContenidoWeb']);
 			$menuPermisoConfiguracion= mysqli_real_escape_string($conexion, $_POST['menuPermisoConfiguracion']);
 			$menuPermisoSecciones= mysqli_real_escape_string($conexion, $_POST['menuPermisoSecciones']);
@@ -156,11 +160,14 @@
 			$menuPermisoInmoClientes=	mysqli_real_escape_string($conexion, $_POST['menuPermisoInmoClientes']);
 			$menuPermisoInmoInmuebles= mysqli_real_escape_string($conexion, $_POST['menuPermisoInmoInmuebles']);
 			$menuPermisoInmoZonas= mysqli_real_escape_string($conexion, $_POST['menuPermisoInmoZonas']);			
-	
+			*/
 			$consulta = "UPDATE usuarios SET email='".$email."', clave='".md5($clave)."', nombre='".$nombre."', nif='".$nif."', direccion='".$direccion."', cp='".$cp."', provincia='".$provincia."', poblacion='".$poblacion."', tlf1='".$tlf1."', tlf2='".$tlf2."', comentarios='".$comentarios."' WHERE id='".$idRegistro."'";;			
 
+		
 			if (mysqli_query($conexion, $consulta)){
+				
 				//si todo salió bien, lanzo los permisos
+				/*
 				$consulta = "
 				UPDATE usuariositios SET 
 				menuContenidoWeb=".booleanToInt($menuPermisoContenidoWeb).", 
@@ -175,14 +182,9 @@
 				menuInmoZonas=".booleanToInt($menuPermisoUsuarios).", 
 				menuCorreos=".booleanToInt($menuPermisoCorreos)." 
 				WHERE id=".$idRegistro;
-				
-				echo $consulta;
-				
-				if (mysqli_query($conexion, $consulta)) {
-					echo $idRegistro;	
-				} else {
-					echo "KO".$consulta;	
-				}
+				*/
+				//echo $consulta;
+				echo $idRegistro;
 			}else{
 				echo "KO".$consulta;
 			};
@@ -210,14 +212,15 @@
 				//traigo el último id insertado				
 				$registro = mysqli_query($conexion, "select last_insert_id()");				
 				$idUltimo = mysqli_fetch_array($registro);
-				
+				echo $idUltimo[0];
+				/*
 				$consulta = "INSERT INTO usuariositios (idUsuario, idSitioWeb, menuContenidoWeb, menuConfiguracion, menuSecciones, menuParametros, menuUsuarios, menuInmobiliaria, menuInmoApuntes, menuInmoClientes, menuInmoInmuebles, menuInmoZonas) VALUES (".$idUltimo[0].",'".$idSitioWeb."','1','1','1','1','1','1','1','1','1','1')";
-				
 				//Lanzo la consulta
 				if (mysqli_query($conexion, $consulta)){
 					//si salió todo bien devuelvo el registro del id usuario creado
 					echo $idUltimo[0];					
 				}
+				*/
 			}else{
 				echo "KO";
 			};
